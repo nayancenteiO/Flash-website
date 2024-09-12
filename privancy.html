@@ -14,7 +14,8 @@
                 color: #000;
             }
             .main-heading {
-                background-image: linear-gradient(0deg, rgb(0 0 0 / 20%) 0%, rgb(0 0 0) 50.6528%);
+                color: #000;
+                background-image: linear-gradient(0deg, rgb(0 0 0) 0%, rgb(0 0 0) 50.6528%);
             }
             .container-main-lg {
                 width: 80%;
@@ -27,12 +28,18 @@
             .privancy_content ul li:first-child {
                 list-style: none;
             }
-            section.main-section{
-                margin: 5rem auto 5rem auto;
+            section.main-section {
+                margin: 5rem auto 1rem auto;
+                max-width: 80%;
+            }
+            div#subhead {
+                justify-content: flex-start;
             }
             @media (max-width: 768px) {
                 section.main-section {
-                    margin: 3rem auto 3rem auto;
+                    margin: 3rem auto 1rem auto;
+                    min-width: 80%;
+                    padding: 0px 0px;
                 }
             }
         </style>
@@ -104,13 +111,13 @@
         <!-- first section -->
         <section class="main-section">
             <div id="subhead" class="relative ">
-                <p class="app-name relative m-0">FLASH PHOTO GENERATER</p>
+                <p class="app-name relative m-0">AI PHOTO GENERATOR</p>
                 <!-- <div class="pillOuter pillAnimate left-full ">
                     <p class="pillInner m-0">AI</p>
                 </div> -->
             </div>
             <div>
-                <h1 class="main-heading text-center w-100">
+                <h1 class="main-heading w-100">
                     Privacy Policy</h1>
             </div>
         </section>
@@ -712,5 +719,16 @@
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script>
+           window.addEventListener("DOMContentLoaded", function() {
+            debugger;
+    // Check if the current URL contains "privancy.html"
+    if (window.location.pathname === "/privancy.html") {
+        // Use the History API to update the URL without reloading the page
+        window.history.replaceState({}, "", "/privancy");
+    }
+});
+
+        </script>
     </body>
 </html>
