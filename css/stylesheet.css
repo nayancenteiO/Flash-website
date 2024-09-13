@@ -250,7 +250,7 @@ div#subhead p.app-name {
   line-height: 76px;
   color: #fff;
   background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0%, rgb(255, 255, 255) 50.6528%);
-  display: inline-block;
+  display: block;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -390,7 +390,7 @@ footer {
   position: absolute;
   bottom: 13px;
   width: 91%;
-  left: 15px;
+  left: 14px;
 }
 
 .mobile_frame_listbar img {
@@ -468,13 +468,19 @@ footer#footer_add {
 .footer-Link {
   display: none;
 }
-
+.main_slider_animation > .position-relative {
+  z-index: 999999;
+}
 .sign_in.latest_flot {
   display: none;
   position: fixed;
-  z-index: 99999;
+  z-index: 99999999999999;
   bottom: 3%;
   right: 3%;
+}
+.slider_im img {
+  height: 622px;
+  object-fit: contain;
 }
 
 /* @media */
