@@ -12,6 +12,9 @@ body{
   position: relative;
   background-color: #000;
 }
+.di-none-ne{
+  display: none;
+}
 a{
   text-decoration: none;
 }
