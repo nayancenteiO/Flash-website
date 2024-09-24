@@ -453,7 +453,9 @@ div#navbarNav a.nav-link {
 }
 
 .privancy_content .answer {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  font-size: 24px;
 }
 
 .privancy_content  h4 {
@@ -485,6 +487,8 @@ footer#footer_add {
   height: 622px;
   object-fit: contain;
 }
+
+
 
 /* @media */
 @media(max-width:768px){
