@@ -337,7 +337,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
-        <script>
+        <!-- <script>
             $(document).ready(function(){
                 $('.slider').slick({
                     vertical: true,
@@ -385,6 +385,54 @@
                 });
             });
 
+        </script> -->
+         <script>
+            $(document).ready(function(){
+                $('.slider').slick({
+                    vertical: true,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 1500,
+                    speed: 1200,
+                    cssEase: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                    arrows: false,
+                    dots: false,
+                    touchThreshold: 10,
+                    swipeToSlide: true,
+                    verticalSwiping: true,
+                    mobileFirst: true,
+                });
+        
+                // Mouse wheel scrolling to navigate slider
+                $('.slider').on('wheel', function(e) {
+                    e.preventDefault();
+                    if (e.originalEvent.deltaY < 0) {
+                        // Scroll up
+                        $(this).slick('slickPrev');
+                    } else {
+                        // Scroll down
+                        $(this).slick('slickNext');
+                    }
+                });
+        
+                // Fix to allow page scrolling outside of the slider
+                $('.slider').on('touchstart', function (e) {
+                    var startY = e.originalEvent.touches[0].pageY;
+                    $(this).on('touchmove', function (e) {
+                        var curY = e.originalEvent.touches[0].pageY;
+                        var diff = startY - curY;
+                        if (Math.abs(diff) > 10) {  // Trigger vertical scrolling only if swipe is large enough
+                            e.stopPropagation(); // Prevents page scroll while interacting with the slider
+                        }
+                    });
+                });
+        
+                $('.slider').on('touchend', function () {
+                    $(this).off('touchmove');
+                });
+            });
         </script>
         
     </body>
