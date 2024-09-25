@@ -339,51 +339,51 @@
         <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
         <script>
             $(document).ready(function(){
-    $('.slider').slick({
-        vertical: true,
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000, // Faster autoplay
-        speed: 400, // Faster slide transition
-        cssEase: 'ease-out', // Smoother easing
-        arrows: false,
-        dots: false,
-        touchThreshold: 1,
-        swipeToSlide: true,
-        verticalSwiping: true,
-        mobileFirst: true,
-    });
+                $('.slider').slick({
+                    vertical: true,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 2000, // Faster autoplay
+                    speed: 400, // Faster slide transition
+                    cssEase: 'ease-out', // Smoother easing
+                    arrows: false,
+                    dots: false,
+                    touchThreshold: 1,
+                    swipeToSlide: true,
+                    verticalSwiping: true,
+                    mobileFirst: true,
+                });
 
-    // Mouse wheel scrolling to navigate slider
-    $('.slider').on('wheel', function(e) {
-        e.preventDefault();
-        if (e.originalEvent.deltaY < 0) {
-            // Scroll up
-            $(this).slick('slickPrev');
-        } else {
-            // Scroll down
-            $(this).slick('slickNext');
-        }
-    });
+                // Mouse wheel scrolling to navigate slider
+                $('.slider').on('wheel', function(e) {
+                    e.preventDefault();
+                    if (e.originalEvent.deltaY < 0) {
+                        // Scroll up
+                        $(this).slick('slickPrev');
+                    } else {
+                        // Scroll down
+                        $(this).slick('slickNext');
+                    }
+                });
 
-    // Fix to allow page scrolling outside of the slider
-    $('.slider').on('touchstart', function (e) {
-        var startY = e.originalEvent.touches[0].pageY;
-        $(this).on('touchmove', function (e) {
-            var curY = e.originalEvent.touches[0].pageY;
-            var diff = startY - curY;
-            if (Math.abs(diff) > 10) {  // Trigger vertical scrolling only if swipe is large enough
-                e.stopPropagation(); // Prevents page scroll while interacting with the slider
-            }
-        });
-    });
+                // Fix to allow page scrolling outside of the slider
+                $('.slider').on('touchstart', function (e) {
+                    var startY = e.originalEvent.touches[0].pageY;
+                    $(this).on('touchmove', function (e) {
+                        var curY = e.originalEvent.touches[0].pageY;
+                        var diff = startY - curY;
+                        if (Math.abs(diff) > 10) {  // Trigger vertical scrolling only if swipe is large enough
+                            e.stopPropagation(); // Prevents page scroll while interacting with the slider
+                        }
+                    });
+                });
 
-    $('.slider').on('touchend', function () {
-        $(this).off('touchmove');
-    });
-});
+                $('.slider').on('touchend', function () {
+                    $(this).off('touchmove');
+                });
+            });
 
         </script>
         
