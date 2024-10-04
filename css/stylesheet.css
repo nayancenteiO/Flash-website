@@ -488,7 +488,29 @@ footer#footer_add {
   object-fit: contain;
 }
 
+.user-image {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 12px;
+}
 
+.user-image img {max-width: 100%;display: block;    width: 30px;}
+
+.user-define {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.user-define h2 {
+  font-size: 13px;
+  margin: 0;
+  color: #fff;
+  font-weight: 400;
+}
 
 /* @media */
 @media(max-width:768px){
@@ -540,4 +562,10 @@ footer#footer_add {
       line-height: 55px;
       color: #fff;
   }
+  .user-image img {
+      width: 25px;
+  }
+  .user-define h2 {
+    font-size: 11px;
+}
 }
