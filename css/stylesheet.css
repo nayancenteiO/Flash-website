@@ -228,7 +228,7 @@ p.pillInner {
 }
 
 section.main-section {
-  margin: 8rem auto 3rem auto;
+  margin: 8rem auto 2.2rem auto;
   min-width: 60%;
   max-width: 70%;
 }
@@ -508,7 +508,7 @@ footer#footer_add {
 .user-define h2 {
   font-size: 13px;
   margin: 0;
-  color: #fff;
+  color: #fff6;
   font-weight: 400;
 }
 
@@ -524,7 +524,7 @@ footer#footer_add {
       margin-bottom: 3rem;
   }
   section.main-section {
-      margin: 8rem auto 3rem auto;
+      margin: 8rem auto 2.2rem auto;
       min-width: 100%;
       max-width: 100%;
       padding: 0px 20px;
