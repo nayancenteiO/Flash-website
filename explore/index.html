@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="canonical" href="https://flashai.photo/explore">
+         <!-- Open Graph Meta Tags (for Facebook, Instagram, etc.) -->
+        <meta property="og:title" content="Flash AI Photo Generator">
+        <meta property="og:description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
+        <meta property="og:image" content="https://flashai.photo/images/og-image.png">
+        <meta property="og:url" content="https://flashai.photo/explore">
+        <meta property="og:type" content="website">
+        
+        <!-- Twitter Card Meta Tags (for Twitter) -->
+        <meta name="twitter:card" content="Flash AI Photo Generator">
+        <meta name="twitter:title" content="Flash AI Photo Generator">
+        <meta name="twitter:description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
+        <meta name="twitter:image" content="https://flashai.photo/images/og-image.png">
+        <meta name="twitter:url" content="https://flashai.photo/explore">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link rel="icon" href="../images/flash_favicon.png" type="image/x-icon">
+        <link rel="stylesheet" href="../css/stylesheet.css">
+        <link rel="stylesheet" href="../css/explore.css">
+        <title>Explore 🪩 trending Flash Templates</title>
+        <meta name="description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
+    </head>
+    <body>
+
+        <section class="main-section-explore">
+            <div class="container slider-tab">
+                <div class="model_tabs">
+                </div>
+            </div>
+            <div class="container d-flex-custom">
+                <div id="loader" class="loader" style="display: none;"></div>
+            </div>
+            <div class="container conmtainer_dtat">
+            </div>
+            <div class="container d-flex-custom">
+                <div id="loader2" class="loader" style="display: none;"></div>
+            </div>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+          
+           let currentPage = 1;  // Track the current page for loading images
+            let loadedCategories = new Set();  // Keep track of loaded categories
+            let isFetching = false;  // To prevent multiple fetches at once
+            let activeTabId = '🪩-trending';  // Track the active tab
+
+            // Function to load images for 🪩 trending
+            function loadimages1() {
+                if (isFetching) return;
+                isFetching = true;  // Set fetching flag to true
+                $('#loader').show(); 
+                let container = $(".conmtainer_dtat");
+                $.ajax({
+                    url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&page=${currentPage}`,
+                    method: 'GET',
+                    success: function (response) {
+                        const data = response.data;
+                        data.forEach(item => {
+                            let category = item.name.toLowerCase().replace(/\s+/g, '-');
+
+                            // Create main div for the image
+                            let elem = $('<div></div>');
+                            elem.addClass("main-data-lens")
+                                .addClass(category)
+                                .css('width', '200px'); // Set width, can be random if needed
+
+                            // Create image element
+                            let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
+                                .css({ width: '100%', height: 'auto' });
+                            elem.append(img);
+
+                            // Create profile data div
+                            let profileData = $('<div></div>').addClass("profile_data");
+                            let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
+                            
+                            let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+
+                            profileInfo.append(userNameLink).append(userRoleLink);
+                            profileData.append(profileImg).append(profileInfo);
+                            elem.append(profileData);
+
+                            // Append the main div to the container
+                            container.append(elem);
+                        });
+
+                        isFetching = false;  // Reset the fetching flag
+                        $('#loader').hide();  // Hide loader after fetching data
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                        isFetching = false;
+                        $('#loader').hide();
+                    }
+                });
+            }
+
+            // Scroll event for infinite loading when scrolling to the bottom
+            $(window).on('scroll', function () {
+                // Check if the active tab is 🪩 trending and if the user has scrolled to the bottom
+                if (activeTabId === '🪩-trending' && $(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                    $('#loader2').show();
+                    loadMoreImages();
+                    $('#loader2').hide();
+                }
+            });
+            document.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+            });
+            // Function to load data by category with pagination (optional tabId)
+            function loadDataByCategory(tabId = null, reset = true) {
+                let container = $(".conmtainer_dtat");
+                if (reset) {
+                    currentPage = 1;  // Reset to page 1 when changing category
+                    container.empty();  // Clear the container when filtering by category
+                    loadedCategories.clear();  // Reset the loaded categories on category change
+                }
+
+                $.ajax({
+                    url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&page=${currentPage}`,
+                    method: 'GET',
+                    success: function (response) {
+                        const data = response.data;
+                        data.forEach(item => {
+                            let category = item.name.toLowerCase().replace(/\s+/g, '-');
+
+                            // If filtering by tab, only add matching categories
+                            if (tabId && tabId !== category) {
+                                return; // Skip non-matching categories
+                            }
+
+                            // Add the category to the set if it's not already there
+                            if (!loadedCategories.has(category)) {
+                                addCategoryToTabs(item.name);  // Add the category to the tabs
+                                loadedCategories.add(category);  // Track the category as loaded
+                            }
+
+                            // Create main div for the image
+                            let elem = $('<div></div>');
+                            elem.addClass("main-data-lens")
+                                .addClass(category)
+                                .css('width', '200px'); // Set width, can be random if needed
+
+                            // Create image element
+                            let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
+                                .css({ width: '100%', height: 'auto' });
+                            elem.append(img);
+
+                            // Create profile data div
+                            let profileData = $('<div></div>').addClass("profile_data");
+                            let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
+                            
+                            let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+
+                            profileInfo.append(userNameLink).append(userRoleLink);
+                            profileData.append(profileImg).append(profileInfo);
+                            elem.append(profileData);
+
+                            // Append the main div to the container
+                            container.append(elem);
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }
+
+            // Function to add a new category to the tabs
+            function addCategoryToTabs(categoryName) {
+                let tabsnames = $(".model_tabs");
+
+                // Create the tab if it doesn't already exist
+                let categoryId = categoryName.toLowerCase().replace(/\s+/g, '-');
+                if (!tabsnames.find(`#${categoryId}`).length) {
+                    let tab = $('<span></span>')
+                        .addClass('tab-names')
+                        .attr('id', categoryId)
+                        .text(categoryName);
+
+                    tabsnames.append(tab);
+                }
+            }
+
+                        // Function for the "Load More" button
+            function loadMoreImages() {
+                if (isFetching) return;  // Prevent multiple fetches
+                currentPage++;  // Increment the page number
+                loadimages1();  // Load next 50 images for 🪩 trending
+            }
+
+            $(document).on('click', '.tab-names', function () {
+                activeTabId = $(this).attr('id');  // Update the active tab ID
+            });
+
+            // Attach event listener to the Load More button
+            $("#load-more-btn").on('click', function() {
+                loadMoreImages();  // Load next 50 images when clicking "Load More"
+            });
+
+            // Helper function to filter lenses by tab
+            function filterLensesByTab(tabId) {
+                $('#loader').show();  // Show loader (if you have a loader element)
+                $('.conmtainer_dtat').empty();  // Clear the container
+
+                setTimeout(() => {
+                    // Load data by category based on the tabId
+                    loadDataByCategory(tabId);
+
+                    $('#loader').hide();  // Hide the loader after filtering
+                }, 500);  // Simulated loading time, adjust if necessary
+            }
+
+            // Function to dynamically load categories from the API
+            function loadCategories() {
+                return $.ajax({
+                    url: 'https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&0page=1',
+                    method: 'GET'
+                }).then(function(response) {
+                    // Ensure the response has data
+                    if (response && response.data && Array.isArray(response.data)) {
+                        const data = response.data;
+                        const categories = new Set(["🪩 trending"]); // Start with "🪩 trending" as default
+
+                        data.forEach(item => {
+                            if (item.name) {
+                                categories.add(item.name); // Add category name to Set
+                            }
+                        });
+
+                        return Array.from(categories); // Convert Set to Array
+                    } else {
+                        console.error("Invalid response format or empty data.");
+                        return []; // Return an empty array if no valid data is found
+                    }
+                }).catch(function(error) {
+                    console.error('Error fetching categories:', error);
+                    return []; // Return an empty array in case of error
+                });
+            }
+
+            // Initialize on document ready
+            $(document).ready(function () {
+                let tabsnames = $(".model_tabs");
+
+                // First, load the categories dynamically
+                loadCategories().then(function (categories) {
+                    if (Array.isArray(categories) && categories.length > 0) {
+                        // Dynamically generate tabs based on categories from the API
+                        categories.forEach((category, index) => {
+                            let tab = $('<span></span>')
+                                .addClass('tab-names')
+                                .attr('id', category.toLowerCase().replace(/\s+/g, '-'))
+                                .text(category);
+                            tabsnames.append(tab);
+
+                            // Set the "🪩 trending" tab as active by default
+                            if (category === "🪩 trending") {
+                                tab.addClass('active');
+                            }
+
+                            // Track loaded categories
+                            loadedCategories.add(category.toLowerCase().replace(/\s+/g, '-'));
+                        });
+
+                        // Show first 50 images for "🪩 trending" by default on page load
+                        
+
+                        // Event delegation for tabs click event
+                        $('.model_tabs').on('click', '.tab-names', function () {
+                            
+                            let tabId = $(this).attr('id');
+                            $('.tab-names').removeClass('active');
+                            $(this).addClass('active');
+                            if(tabId === '🪩-trending') {
+                                loadimages1();
+                                return;
+                            }
+                            filterLensesByTab(tabId);
+                        });
+                    } else {
+                        console.error('No categories found.');
+                    }
+                });
+
+                // Load first 50 images for "🪩 trending" by default when page loads
+                filterLensesByTab();
+            });
+
+        </script>
+    </body>
+</html>
