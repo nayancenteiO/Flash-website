@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinterest Profile Clone</title>
+    <style>
+        * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.profile-info p {
+    margin-bottom: 5px;
+    color: gray;
+}
+
+.profile-actions {
+    margin-top: 10px;
+}
+
+.message-btn, .follow-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.message-btn {
+    background-color: #eaeaea;
+}
+
+.follow-btn {
+    background-color: #e60023;
+    color: white;
+}
+
+.board-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.board {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+}
+
+.board img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.board-info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.board-info p {
+    color: gray;
+    font-size: 14px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="profile-picture.jpg" alt="Profile Picture" class="profile-image">
+            <div class="profile-info">
+                <h1>Tany Varghese</h1>
+                <p>@tanvarghese</p>
+                <p>1.7k followers · 300 following</p>
+                <div class="profile-actions">
+                    <button class="message-btn">Message</button>
+                    <button class="follow-btn">Follow</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="board-section">
+            <h2>Saved</h2>
+            <div class="boards-grid">
+                <div class="board">
+                    <img src="all-pins.jpg" alt="All Pins">
+                    <div class="board-info">
+                        <h3>All Pins</h3>
+                        <p>16k Pins · 49m</p>
+                    </div>
+                </div>
+                <div class="board">
+                    <img src="outfit-designs.jpg" alt="Outfit Designs">
+                    <div class="board-info">
+                        <h3>Outfit designs</h3>
+                        <p>1.2k Pins · 49m</p>
+                    </div>
+                </div>
+                <div class="board">
+                    <img src="churidar-designs.jpg" alt="Churidar Designs">
+                    <div class="board-info">
+                        <h3>Churidar designs</h3>
+                        <p>494 Pins · 50m</p>
+                    </div>
+                </div>
+                <div class="board">
+                    <img src="neck-hand-designs.jpg" alt="Neck and Hand Designs">
+                    <div class="board-info">
+                        <h3>Neck and hand designs</h3>
+                        <p>825 Pins · 1d</p>
+                    </div>
+                </div>
+                <div class="board">
+                    <img src="stitching-tutorials.jpg" alt="Stitching Tutorials">
+                    <div class="board-info">
+                        <h3>Stitching Tutorials</h3>
+                        <p>446 Pins · 1d</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

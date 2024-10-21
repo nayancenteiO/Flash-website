@@ -39,17 +39,10 @@
                 <div class="model_tabs">
                 </div>
             </div>
-            <div class="container d-flex-custom">
-                <div id="loader" class="loader" style="display: none;"></div>
-            </div>
-            
             <div class="container">
                 <div class="conmtainer_dtat grid">
                     
                 </div>
-            </div>
-            <div class="container d-flex-custom">
-                <div id="loader2" class="loader" style="display: none;"></div>
             </div>
         </section>
 
@@ -58,18 +51,17 @@
 
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+        <!-- <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script> -->
+         <script src="../js/masoonary.js"></script>
         <script>
           $(document).ready(function () {
-            // Delay Masonry initialization by 10 seconds (10,000 milliseconds)
-            setTimeout(function() {
                 $('.conmtainer_dtat').masonry({
                     columnWidth: 200,
                     itemSelector: '.grid-item',
                     horizontalOrder: true,
-                    gutter: 16
-                });
-            }, 2000); // 10000 milliseconds = 10 seconds
+                    gutter: 16,
+                    animate: false
+                });; // 10000 milliseconds = 10 seconds
         });
 
         </script>
@@ -82,9 +74,9 @@
 
             // Function to load images for 🪩 trending
             function loadimages1() {
+               
                 if (isFetching) return;
                 isFetching = true;  // Set fetching flag to true
-                $('#loader').show();
                 let container = $(".conmtainer_dtat");
                 $.ajax({
                     url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&page=${currentPage}`,
@@ -94,7 +86,7 @@
                         let imagesLoaded = 0;  // Track how many images are loaded
 
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+/g, '-');
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');;
 
                             // Create main div for the image
                             let elem = $('<div></div>');
@@ -115,7 +107,7 @@
                                 // Once all images are loaded, relayout Masonry
                                 if (imagesLoaded === data.length) {
                                     container.masonry('layout');
-                                    $('#loader').hide();  // Hide loader after all images are loaded
+                                    
                                 }
                             });
 
@@ -142,20 +134,87 @@
                     error: function (error) {
                         console.error('Error fetching data:', error);
                         isFetching = false;
-                        $('#loader').hide();
+                        
                     }
                 });
             }
 
+            function loadimages2() {
+               
+               if (isFetching) return;
+               isFetching = true;  // Set fetching flag to true
+               let container = $(".conmtainer_dtat");
+               container.empty();
+               $.ajax({
+                   url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&page=${currentPage}`,
+                   method: 'GET',
+                   success: function (response) {
+                       const data = response.data;
+                       let imagesLoaded = 0;  // Track how many images are loaded
+
+                       data.forEach(item => {
+                           let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            console.log(category);
+                           // Create main div for the image
+                           let elem = $('<div></div>');
+                           elem.addClass("main-data-lens")
+                               .addClass(category)
+                               .addClass("grid-item")
+                               .css('width', '200px'); // Set width, can be random if needed
+
+                           // Create image element
+                           let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
+                               .css({ width: '100%', height: 'auto' });
+
+                           // When the image is fully loaded, update the Masonry layout
+                           img.on('load', function () {
+                               imagesLoaded++;
+                               container.masonry('appended', elem);
+
+                               // Once all images are loaded, relayout Masonry
+                               if (imagesLoaded === data.length) {
+                                   container.masonry('layout');
+                                   
+                               }
+                           });
+
+                           elem.append(img);
+
+                           // Create profile data div
+                           let profileData = $('<div></div>').addClass("profile_data");
+                           let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
+
+                           let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                           let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                           let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+
+                           profileInfo.append(userNameLink).append(userRoleLink);
+                           profileData.append(profileImg).append(profileInfo);
+                           elem.append(profileData);
+
+                           // Append the main div to the container
+                           container.append(elem);
+                       });
+
+                       isFetching = false;  // Reset the fetching flag
+                   },
+                   error: function (error) {
+                       console.error('Error fetching data:', error);
+                       isFetching = false;
+                       
+                   }
+               });
+           }
+
             // Scroll event for infinite loading when scrolling to the bottom
             $(window).on('scroll', function () {
                 if (activeTabId === '🪩-trending' && $(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                    $('#loader2').show();
+                    
                     loadMoreImages();
-                    $('#loader2').hide();
+                    
                 }
             });
-                document.addEventListener('contextmenu', function(event) {
+            document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
             });
             // Function to load data by category with pagination (optional tabId)
@@ -173,7 +232,7 @@
                     success: function (response) {
                         const data = response.data;
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+/g, '-');
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');;
 
                             // If filtering by tab, only add matching categories
                             if (tabId && tabId !== category) {
@@ -256,15 +315,9 @@
 
             // Helper function to filter lenses by tab
             function filterLensesByTab(tabId) {
-                $('#loader').show();  // Show loader (if you have a loader element)
+                
                 $('.conmtainer_dtat').empty();  // Clear the container
-
-                setTimeout(() => {
-                    // Load data by category based on the tabId
-                    loadDataByCategory(tabId);
-
-                    $('#loader').hide();  // Hide the loader after filtering
-                }, 500);  // Simulated loading time, adjust if necessary
+                loadDataByCategory(tabId);  // Simulated loading time, adjust if necessary
             }
 
             // Function to dynamically load categories from the API
@@ -311,13 +364,19 @@
     // Fetch category images from the second API
     function fetchCategoryImages() {
         return $.ajax({
-            url: `https://flashailens.com/api/dashboard/getAllLensData`,
+            url: `https://dashboard.flashailens.com/api/dashboard/getAllData`,
             method: 'GET'
         });
     }
 
+    // Helper function to sanitize category name (remove spaces, icons, etc.)
+    function sanitizeCategoryName(name) {
+        return name.replace(/[^\w\s]|_/g, "").replace(/\s+/g, "-");
+    }
+
     // Load the categories with icons
     function loadCategoriesWithIcons() {
+        debugger;
         // Add the "🪩 trending" tab as the first tab and mark it as active
         let trendingTab = $('<span></span>')
             .addClass('tab-names active')  // Mark as active
@@ -330,43 +389,55 @@
             const categoryData = categoryDataResponse[0].data;  // Access the data from the first API
             const categoryImages = categoryImagesResponse[0].data;  // Access the data from the second API
             
-            // Create a map of category name to category image
+        
+            // Create a map of sanitized category name to category image
             categoryImages.forEach(item => {
-                categoryImagesMap[item.lensName.toLowerCase()] = item.image;  // Map `lensName` to image
+                const sanitizedLensName = item.lensName;
+                categoryImagesMap[sanitizedLensName] = item.image; 
             });
-
+           
             // Generate the remaining tabs with icons from category data
             const loadedCategories = new Set();  // To track the loaded categories
             categoryData.forEach(item => {
-                let category = item.name.toLowerCase().replace(/\s+/g, '-');  // Format category name (hyphenated)
-
+                const sanitizedCategory = item.name;  // Sanitize category name
+               const cateID = item.name.toLowerCase().replace(/\s+|\./g, '-');;
+               
                 // If the category is not already loaded, create the tab
-                if (!loadedCategories.has(category)) {
-                    let categoryId = category;  // Category ID for the tab
+                if (!loadedCategories.has(sanitizedCategory)) {
+                    let categoryId = sanitizedCategory;  // Category ID for the tab
 
-                    // Find the corresponding image for the category
-                    let categoryIcon = categoryImagesMap[item.name.toLowerCase()] || '../images/start-slash.png';  // Default icon if not available
+                    // Find the corresponding image for the sanitized category
+                    let categoryIcon = categoryImagesMap[sanitizedCategory] || '../images/start-slash.png';  // Default icon if not available
 
                     // Create the tab element with icon
                     let tab = $('<span></span>')
                         .addClass('tab-names')
-                        .attr('id', categoryId)
-                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 24px; height: 24px; margin-right: 8px;">${item.name}`);
+                        .attr('id', cateID)
+                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 8px;">${item.name}`);
 
                     tabsnames.append(tab);  // Append tab to the container
-                    loadedCategories.add(category);  // Mark this category as loaded
+                    loadedCategories.add(sanitizedCategory);  // Mark this category as loaded
                 }
             });
 
             // Set up click behavior for the tabs
             $('.model_tabs').on('click', '.tab-names', function () {
+                debugger;
                 let tabId = $(this).attr('id');
                 $('.tab-names').removeClass('active');
                 $(this).addClass('active');
+
                 if (tabId === '🪩-trending') {
-                    loadimages1();  // Load trending images
+                    $(".conmtainer_dtat").removeClass("grid2");
+                    let containerss = $(".model_tabs");
+                    containerss.empty();
+                    loadCategoriesWithIcons();
+                    loadimages2(); 
+                     // Load trending images
                 } else {
-                    filterLensesByTab(tabId);  // Load lenses for other categories
+                    $(".main-data-lens").hide();
+                    $(".main-data-lens." + tabId).show();
+                    $(".conmtainer_dtat").addClass("grid2");
                 }
             });
         }).fail(function (error) {
@@ -380,6 +451,7 @@
     // Load the trending tab content on page load
     loadimages1();
 });
+
 
 
         </script>

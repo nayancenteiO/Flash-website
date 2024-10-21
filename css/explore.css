@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 /*
 .conmtainer_dtat {
 	columns: 200px;
@@ -119,7 +120,7 @@ img {
   gap: 11px;
 }
 a {
-    font-size: 14px;
+    font-size: 12px;
     display: block;
     width: 100%;
     color: #fff;
@@ -140,6 +141,7 @@ section.main-section-explore {
   white-space: nowrap;
   scroll-behavior: smooth;
   margin-bottom: 50px;
+  
 }
 
 .model_tabs::-webkit-scrollbar {
@@ -156,29 +158,29 @@ display: none;
 }
 
 .model_tabs span {
+  color: #ffffff5e;
   font-size: 14px;
+  font-weight: 600;
   line-height: 10px;
-  background: #fff;
-  padding: 8px 22px;
-  border-radius: 21px;
+  padding: 8px 16px 12px;
   cursor: pointer;
-  border: 1px solid #fff;
+  /* border-bottom: 0px solid #fff; */
   margin-right: 10px;
+  transition: liner;
 }
 
-.model_tabs span:first-child {
+/* .model_tabs span:first-child {
   height: 42px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
+} */
 
 
 .tab-names.active {
   background: black;
   color: #fff;
-  border: 1px solid #fff;
-  box-shadow: 0px 0px 23px #ff00908c;
+  border-bottom: 2px solid #fff;
   
 }
 .pading-less {
@@ -253,9 +255,24 @@ display: none;
   display: none;
 }
 
-
+.conmtainer_dtat.grid.grid2 {
+  height: auto !important;
+  display: flex;
+  gap: 16px;
+  flex-direction: row;
+    flex-wrap: wrap;
+}
+.grid2 .grid-item {
+  margin-bottom: 10px;
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+}
 
 @media(max-width:560px){
+  .grid-item{
+    width: 100% !important; 
+  }
   section.main-section-explore {
       padding: 50px 10px;
   }
