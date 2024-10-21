@@ -23,6 +23,10 @@
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
         <link rel="icon" href="../images/flash_favicon.png" type="image/x-icon">
         <link rel="stylesheet" href="../css/stylesheet.css">
         <link rel="stylesheet" href="../css/explore.css">
@@ -30,7 +34,6 @@
         <meta name="description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
     </head>
     <body>
-
         <section class="main-section-explore">
             <div class="container slider-tab">
                 <div class="model_tabs">
@@ -39,7 +42,11 @@
             <div class="container d-flex-custom">
                 <div id="loader" class="loader" style="display: none;"></div>
             </div>
-            <div class="container conmtainer_dtat">
+            
+            <div class="container">
+                <div class="conmtainer_dtat grid">
+                    
+                </div>
             </div>
             <div class="container d-flex-custom">
                 <div id="loader2" class="loader" style="display: none;"></div>
@@ -49,6 +56,23 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+        <script>
+          $(document).ready(function () {
+            // Delay Masonry initialization by 10 seconds (10,000 milliseconds)
+            setTimeout(function() {
+                $('.conmtainer_dtat').masonry({
+                    columnWidth: 200,
+                    itemSelector: '.grid-item',
+                    horizontalOrder: true,
+                    gutter: 16
+                });
+            }, 2000); // 10000 milliseconds = 10 seconds
+        });
+
+        </script>
         <script>
           
            let currentPage = 1;  // Track the current page for loading images
@@ -60,13 +84,15 @@
             function loadimages1() {
                 if (isFetching) return;
                 isFetching = true;  // Set fetching flag to true
-                $('#loader').show(); 
+                $('#loader').show();
                 let container = $(".conmtainer_dtat");
                 $.ajax({
                     url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&page=${currentPage}`,
                     method: 'GET',
                     success: function (response) {
                         const data = response.data;
+                        let imagesLoaded = 0;  // Track how many images are loaded
+
                         data.forEach(item => {
                             let category = item.name.toLowerCase().replace(/\s+/g, '-');
 
@@ -74,17 +100,31 @@
                             let elem = $('<div></div>');
                             elem.addClass("main-data-lens")
                                 .addClass(category)
+                                .addClass("grid-item")
                                 .css('width', '200px'); // Set width, can be random if needed
 
                             // Create image element
                             let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
                                 .css({ width: '100%', height: 'auto' });
+
+                            // When the image is fully loaded, update the Masonry layout
+                            img.on('load', function () {
+                                imagesLoaded++;
+                                container.masonry('appended', elem);
+
+                                // Once all images are loaded, relayout Masonry
+                                if (imagesLoaded === data.length) {
+                                    container.masonry('layout');
+                                    $('#loader').hide();  // Hide loader after all images are loaded
+                                }
+                            });
+
                             elem.append(img);
 
                             // Create profile data div
                             let profileData = $('<div></div>').addClass("profile_data");
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
-                            
+
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
                             let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -98,7 +138,6 @@
                         });
 
                         isFetching = false;  // Reset the fetching flag
-                        $('#loader').hide();  // Hide loader after fetching data
                     },
                     error: function (error) {
                         console.error('Error fetching data:', error);
@@ -110,14 +149,13 @@
 
             // Scroll event for infinite loading when scrolling to the bottom
             $(window).on('scroll', function () {
-                // Check if the active tab is 🪩 trending and if the user has scrolled to the bottom
                 if (activeTabId === '🪩-trending' && $(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
                     $('#loader2').show();
                     loadMoreImages();
                     $('#loader2').hide();
                 }
             });
-            document.addEventListener('contextmenu', function(event) {
+                document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
             });
             // Function to load data by category with pagination (optional tabId)
@@ -152,6 +190,7 @@
                             let elem = $('<div></div>');
                             elem.addClass("main-data-lens")
                                 .addClass(category)
+                                .addClass("grid-item")
                                 .css('width', '200px'); // Set width, can be random if needed
 
                             // Create image element
@@ -173,7 +212,9 @@
 
                             // Append the main div to the container
                             container.append(elem);
+                            container.masonry('appended', elem);
                         });
+                        container.masonry('layout');
                     },
                     error: function (error) {
                         console.error('Error fetching data:', error);
@@ -277,10 +318,6 @@
                             // Track loaded categories
                             loadedCategories.add(category.toLowerCase().replace(/\s+/g, '-'));
                         });
-
-                        // Show first 50 images for "🪩 trending" by default on page load
-                        
-
                         // Event delegation for tabs click event
                         $('.model_tabs').on('click', '.tab-names', function () {
                             
