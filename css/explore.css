@@ -159,12 +159,21 @@ display: none;
   font-size: 14px;
   line-height: 10px;
   background: #fff;
-  padding: 13px 22px;
+  padding: 8px 22px;
   border-radius: 21px;
   cursor: pointer;
   border: 1px solid #fff;
   margin-right: 10px;
 }
+
+.model_tabs span:first-child {
+  height: 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
 .tab-names.active {
   background: black;
   color: #fff;

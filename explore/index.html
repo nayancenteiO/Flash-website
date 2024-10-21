@@ -295,49 +295,92 @@
                 });
             }
 
-            // Initialize on document ready
+            // Initialize on document ready\
             $(document).ready(function () {
-                let tabsnames = $(".model_tabs");
+    let tabsnames = $(".model_tabs");
+    let categoryImagesMap = {};  // To map category name to its image
 
-                // First, load the categories dynamically
-                loadCategories().then(function (categories) {
-                    if (Array.isArray(categories) && categories.length > 0) {
-                        // Dynamically generate tabs based on categories from the API
-                        categories.forEach((category, index) => {
-                            let tab = $('<span></span>')
-                                .addClass('tab-names')
-                                .attr('id', category.toLowerCase().replace(/\s+/g, '-'))
-                                .text(category);
-                            tabsnames.append(tab);
+    // First, fetch category data from the first API
+    function fetchCategoryData() {
+        return $.ajax({
+            url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=100&page=1`,
+            method: 'GET'
+        });
+    }
 
-                            // Set the "🪩 trending" tab as active by default
-                            if (category === "🪩 trending") {
-                                tab.addClass('active');
-                            }
+    // Fetch category images from the second API
+    function fetchCategoryImages() {
+        return $.ajax({
+            url: `https://flashailens.com/api/dashboard/getAllLensData`,
+            method: 'GET'
+        });
+    }
 
-                            // Track loaded categories
-                            loadedCategories.add(category.toLowerCase().replace(/\s+/g, '-'));
-                        });
-                        // Event delegation for tabs click event
-                        $('.model_tabs').on('click', '.tab-names', function () {
-                            
-                            let tabId = $(this).attr('id');
-                            $('.tab-names').removeClass('active');
-                            $(this).addClass('active');
-                            if(tabId === '🪩-trending') {
-                                loadimages1();
-                                return;
-                            }
-                            filterLensesByTab(tabId);
-                        });
-                    } else {
-                        console.error('No categories found.');
-                    }
-                });
+    // Load the categories with icons
+    function loadCategoriesWithIcons() {
+        // Add the "🪩 trending" tab as the first tab and mark it as active
+        let trendingTab = $('<span></span>')
+            .addClass('tab-names active')  // Mark as active
+            .attr('id', '🪩-trending')
+            .html(`🪩 Trending`);
+        tabsnames.append(trendingTab);  // Add "🪩 trending" tab first
 
-                // Load first 50 images for "🪩 trending" by default when page loads
-                filterLensesByTab();
+        // Fetch data from APIs
+        $.when(fetchCategoryData(), fetchCategoryImages()).done(function (categoryDataResponse, categoryImagesResponse) {
+            const categoryData = categoryDataResponse[0].data;  // Access the data from the first API
+            const categoryImages = categoryImagesResponse[0].data;  // Access the data from the second API
+            
+            // Create a map of category name to category image
+            categoryImages.forEach(item => {
+                categoryImagesMap[item.lensName.toLowerCase()] = item.image;  // Map `lensName` to image
             });
+
+            // Generate the remaining tabs with icons from category data
+            const loadedCategories = new Set();  // To track the loaded categories
+            categoryData.forEach(item => {
+                let category = item.name.toLowerCase().replace(/\s+/g, '-');  // Format category name (hyphenated)
+
+                // If the category is not already loaded, create the tab
+                if (!loadedCategories.has(category)) {
+                    let categoryId = category;  // Category ID for the tab
+
+                    // Find the corresponding image for the category
+                    let categoryIcon = categoryImagesMap[item.name.toLowerCase()] || '../images/start-slash.png';  // Default icon if not available
+
+                    // Create the tab element with icon
+                    let tab = $('<span></span>')
+                        .addClass('tab-names')
+                        .attr('id', categoryId)
+                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 24px; height: 24px; margin-right: 8px;">${item.name}`);
+
+                    tabsnames.append(tab);  // Append tab to the container
+                    loadedCategories.add(category);  // Mark this category as loaded
+                }
+            });
+
+            // Set up click behavior for the tabs
+            $('.model_tabs').on('click', '.tab-names', function () {
+                let tabId = $(this).attr('id');
+                $('.tab-names').removeClass('active');
+                $(this).addClass('active');
+                if (tabId === '🪩-trending') {
+                    loadimages1();  // Load trending images
+                } else {
+                    filterLensesByTab(tabId);  // Load lenses for other categories
+                }
+            });
+        }).fail(function (error) {
+            console.error('Error loading category or images data:', error);
+        });
+    }
+
+    // Call the function to load categories with icons
+    loadCategoriesWithIcons();
+
+    // Load the trending tab content on page load
+    loadimages1();
+});
+
 
         </script>
     </body>
