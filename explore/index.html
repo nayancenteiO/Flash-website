@@ -53,82 +53,99 @@
          <script src="../js/masoonary.js"></script>
          <script>
             const modelTabs = document.querySelector('.model_tabs');
+            const sliderTab = document.querySelector('.slider-tab');
+            const leftArrow = document.querySelector('.arrow-left');
+            const rightArrow = document.querySelector('.arrow-right');
 
             let isDown = false;
             let startX;
             let scrollLeft;
 
-            // Mouse down event
+            // Function to check scroll position
+            function checkScrollPosition() {
+                const scrollLeftPos = modelTabs.scrollLeft;
+                const maxScrollLeft = modelTabs.scrollWidth - modelTabs.clientWidth;
+
+                // Show/hide left arrow based on scroll position
+                if (scrollLeftPos > 0) {
+                    leftArrow.style.display = 'flex';
+                } else {
+                    leftArrow.style.display = 'none';
+                }
+
+                // Show/hide right arrow based on scroll position
+                if (scrollLeftPos < maxScrollLeft) {
+                    rightArrow.style.display = 'flex';
+                } else {
+                    rightArrow.style.display = 'none';
+                }
+
+                // Add 'scrolled' class to sliderTab if scroll starts
+                if (scrollLeftPos > 0) {
+                    sliderTab.classList.add('scrolled');
+                }
+            }
+
+            // Mouse down event for dragging
             modelTabs.addEventListener('mousedown', (e) => {
                 isDown = true;
-                modelTabs.classList.add('active'); // Optionally add a class for active state styling
+                modelTabs.classList.add('active');
                 startX = e.pageX - modelTabs.offsetLeft;
                 scrollLeft = modelTabs.scrollLeft;
             });
 
-            // Mouse leave event (if user drags outside the element)
+            // Mouse leave event
             modelTabs.addEventListener('mouseleave', () => {
                 isDown = false;
                 modelTabs.classList.remove('active');
+                rightArrow.style.display = 'none'; // Hide arrows when not hovering
+                leftArrow.style.display = 'none';
+                sliderTab.classList.remove('scrolled'); 
             });
 
-            // Mouse up event (when user stops dragging)
+            // Mouse up event
             modelTabs.addEventListener('mouseup', () => {
                 isDown = false;
                 modelTabs.classList.remove('active');
             });
 
-            // Mouse move event (scrolling while dragging)
+            // Mouse move event for scrolling
             modelTabs.addEventListener('mousemove', (e) => {
-                if (!isDown) return; // Exit if not dragging
+                if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - modelTabs.offsetLeft;
-                const walk = (x - startX) * 2; // *2 for faster scrolling
+                const walk = (x - startX) * 2;
                 modelTabs.scrollLeft = scrollLeft - walk;
             });
-            $(document).ready(function () {
-                const modelTabs = document.querySelector('.model_tabs');
-                const leftArrow = document.querySelector('.arrow-left');
-                const rightArrow = document.querySelector('.arrow-right');
 
-                // Make the right arrow visible by default
-                rightArrow.style.display = 'flex';
-
-                // Check the scroll position to toggle arrow visibility
-                function checkScrollPosition() {
-                    const scrollLeft = modelTabs.scrollLeft;
-                    const maxScrollLeft = modelTabs.scrollWidth - modelTabs.clientWidth;
-
-                    // Show/hide left arrow based on scroll position
-                    if (scrollLeft > 0) {
-                        leftArrow.style.display = 'flex';
-                    } else {
-                        leftArrow.style.display = 'none';
-                    }
-
-                    // Show/hide right arrow based on scroll position
-                    if (scrollLeft < maxScrollLeft) {
-                        rightArrow.style.display = 'flex';
-                    } else {
-                        rightArrow.style.display = 'none';
-                    }
-                }
-
-                // Add event listener for scrolling
-                modelTabs.addEventListener('scroll', checkScrollPosition);
-
-                // Initial check on page load
-                checkScrollPosition();
-                rightArrow.style.display = 'flex';
-                // Click events for arrows
-                leftArrow.addEventListener('click', () => {
-                    modelTabs.scrollBy({ left: -300, behavior: 'smooth' });
-                });
-
-                rightArrow.addEventListener('click', () => {
-                    modelTabs.scrollBy({ left: 300, behavior: 'smooth' });
-                });
+            // Hover event to show arrows and add 'scrolled' class
+            modelTabs.addEventListener('mouseenter', () => {
+                checkScrollPosition(); // Show the arrows when hover starts
+                sliderTab.classList.add('scrolled'); // Add 'scrolled' class on hover
             });
+
+            // Scroll event for showing/hiding arrows based on scroll position
+            modelTabs.addEventListener('scroll', checkScrollPosition);
+
+            // Initial check on page load
+            checkScrollPosition();
+
+            // Click events for arrows
+            leftArrow.addEventListener('click', () => {
+                modelTabs.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+
+            rightArrow.addEventListener('click', () => {
+                modelTabs.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+
+            // Document ready equivalent
+            document.addEventListener('DOMContentLoaded', () => {
+                // Initially hide arrows until hovered
+                rightArrow.style.display = 'none';
+                leftArrow.style.display = 'none';
+            });
+
 
 
          </script>
@@ -189,7 +206,7 @@
                         let imagesLoaded = 0;  // Track how many images are loaded
 
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');;
 
                             // Create main div for the image
                             let elem = $('<div></div>');
@@ -222,11 +239,8 @@
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
 
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                            // let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
-                            // let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
-                            let username = item.user[0].userName.toLowerCase().replace(/\s+|\./g, '-'); // Generate a username-friendly URL
-                            let userNameLink = $('<a></a>').attr('href', `https://flashai.photo/${username}`).text(item.user[0].userName).attr('target', '_self');
-                            let userRoleLink = $('<a></a>').attr('href', `https://flashai.photo/${username}`).text(category).attr('target', '_self'); // Role can link to user page
+                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
                             profileData.append(profileImg).append(profileInfo);
@@ -526,7 +540,7 @@
                                     let tab = $('<span></span>')
                                         .addClass('tab-names')
                                         .attr('id', cateID)
-                                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 8px;">${item.name}`);
+                                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${item.name}`);
 
                                     tabsnames.append(tab);  // Append tab to the container
                                     loadedCategories.add(sanitizedCategory);  // Mark this category as loaded
