@@ -131,7 +131,7 @@
         <script>
           $(document).ready(function () {
             var windowWidth = $(window).width();
-            var gutterValue = windowWidth < 767 ? 10 : 20;
+            var gutterValue = windowWidth < 767 ? 14 : 20;
                 $('.conmtainer_dtat').masonry({
                         itemSelector: '.grid-item',
                         columnWidth: '.grid-sizer', // 240px width for each column (you can tweak this value)
@@ -313,12 +313,15 @@
 
             // Scroll event for infinite loading when scrolling to the bottom
             $(window).on('scroll', function () {
-                if (activeTabId === '🪩-trending' && $(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
-                    
-                    loadMoreImages();
-                    
-                }
-            });
+    var scrollPosition = $(window).scrollTop() + window.innerHeight;
+    var documentHeight = $(document).height();
+
+    // Check if the user has scrolled to the bottom or near the bottom of the page
+    if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
+        loadMoreImages(); // Load more images when close to the bottom
+    }
+});
+
             document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
             });
