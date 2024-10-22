@@ -71,13 +71,16 @@
                     leftArrow.style.display = 'flex';
                 } else {
                     leftArrow.style.display = 'none';
+                    sliderTab.classList.remove('scrolled');
                 }
         
                 // Show/hide right arrow based on scroll position
                 if (scrollLeftPos >= maxScrollLeft) {
-                    rightArrow.style.display = 'none'; // Hide the right arrow when reaching the end
+                    rightArrow.style.display = 'none';
+                  // Hide the right arrow when reaching the end
                 } else {
                     rightArrow.style.display = 'flex';
+                    
                 }
         
                 // Add 'scrolled' class to sliderTab if scroll starts
