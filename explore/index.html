@@ -77,9 +77,12 @@
                 // Show/hide right arrow based on scroll position
                 if (scrollLeftPos >= maxScrollLeft) {
                     rightArrow.style.display = 'none';
+                    console.log("close");
+                    sliderTab.classList.remove('load');
                   // Hide the right arrow when reaching the end
                 } else {
                     rightArrow.style.display = 'flex';
+                    sliderTab.classList.add('load');
                     
                 }
         
@@ -117,7 +120,7 @@
                     rightArrow.style.display = 'none'; // Hide arrows when not hovering on larger screens
                     leftArrow.style.display = 'none';
                 }
-                sliderTab.classList.remove('scrolled');
+                sliderTab.classList.remove('load');
             });
         
             // Mouse up event
