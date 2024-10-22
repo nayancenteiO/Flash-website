@@ -91,18 +91,22 @@
                 const leftArrow = document.querySelector('.arrow-left');
                 const rightArrow = document.querySelector('.arrow-right');
 
+                // Make the right arrow visible by default
+                rightArrow.style.display = 'flex';
+
                 // Check the scroll position to toggle arrow visibility
                 function checkScrollPosition() {
                     const scrollLeft = modelTabs.scrollLeft;
                     const maxScrollLeft = modelTabs.scrollWidth - modelTabs.clientWidth;
 
-                    // Show/hide arrows based on scroll position
+                    // Show/hide left arrow based on scroll position
                     if (scrollLeft > 0) {
                         leftArrow.style.display = 'flex';
                     } else {
                         leftArrow.style.display = 'none';
                     }
 
+                    // Show/hide right arrow based on scroll position
                     if (scrollLeft < maxScrollLeft) {
                         rightArrow.style.display = 'flex';
                     } else {
@@ -115,7 +119,7 @@
 
                 // Initial check on page load
                 checkScrollPosition();
-
+                rightArrow.style.display = 'flex';
                 // Click events for arrows
                 leftArrow.addEventListener('click', () => {
                     modelTabs.scrollBy({ left: -300, behavior: 'smooth' });
