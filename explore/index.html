@@ -56,36 +56,50 @@
             const sliderTab = document.querySelector('.slider-tab');
             const leftArrow = document.querySelector('.arrow-left');
             const rightArrow = document.querySelector('.arrow-right');
-
+            
             let isDown = false;
             let startX;
             let scrollLeft;
-
+        
             // Function to check scroll position
             function checkScrollPosition() {
                 const scrollLeftPos = modelTabs.scrollLeft;
                 const maxScrollLeft = modelTabs.scrollWidth - modelTabs.clientWidth;
-
+        
                 // Show/hide left arrow based on scroll position
                 if (scrollLeftPos > 0) {
                     leftArrow.style.display = 'flex';
                 } else {
                     leftArrow.style.display = 'none';
                 }
-
+        
                 // Show/hide right arrow based on scroll position
                 if (scrollLeftPos < maxScrollLeft) {
                     rightArrow.style.display = 'flex';
                 } else {
                     rightArrow.style.display = 'none';
                 }
-
+        
                 // Add 'scrolled' class to sliderTab if scroll starts
-                if (scrollLeftPos > 0) {
+                if (scrollLeftPos > 0 || window.innerWidth <= 767) {
                     sliderTab.classList.add('scrolled');
                 }
             }
-
+        
+            // Function to handle screen resize and check if on mobile
+            function handleResize() {
+                if (window.innerWidth <= 767) {
+                    // Automatically show arrows on mobile
+                    sliderTab.classList.add('scrolled');
+                    // rightArrow.style.display = 'flex';
+                    leftArrow.style.display = modelTabs.scrollLeft > 0 ? 'flex' : 'none';
+                } else {
+                    rightArrow.style.display = 'none';
+                    leftArrow.style.display = 'none';
+                    sliderTab.classList.remove('scrolled');
+                }
+            }
+        
             // Mouse down event for dragging
             modelTabs.addEventListener('mousedown', (e) => {
                 isDown = true;
@@ -93,22 +107,24 @@
                 startX = e.pageX - modelTabs.offsetLeft;
                 scrollLeft = modelTabs.scrollLeft;
             });
-
+        
             // Mouse leave event
             modelTabs.addEventListener('mouseleave', () => {
                 isDown = false;
                 modelTabs.classList.remove('active');
-                rightArrow.style.display = 'none'; // Hide arrows when not hovering
-                leftArrow.style.display = 'none';
-                sliderTab.classList.remove('scrolled'); 
+                if (window.innerWidth > 767) {
+                    rightArrow.style.display = 'none'; // Hide arrows when not hovering on larger screens
+                    leftArrow.style.display = 'none';
+                }
+                sliderTab.classList.remove('scrolled');
             });
-
+        
             // Mouse up event
             modelTabs.addEventListener('mouseup', () => {
                 isDown = false;
                 modelTabs.classList.remove('active');
             });
-
+        
             // Mouse move event for scrolling
             modelTabs.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
@@ -117,38 +133,39 @@
                 const walk = (x - startX) * 2;
                 modelTabs.scrollLeft = scrollLeft - walk;
             });
-
-            // Hover event to show arrows and add 'scrolled' class
+        
+            // Hover event to show arrows and add 'scrolled' class on larger screens
             modelTabs.addEventListener('mouseenter', () => {
-                checkScrollPosition(); // Show the arrows when hover starts
-                sliderTab.classList.add('scrolled'); // Add 'scrolled' class on hover
+                if (window.innerWidth > 767) {
+                    checkScrollPosition(); // Show the arrows when hover starts
+                    sliderTab.classList.add('scrolled'); // Add 'scrolled' class on hover
+                }
             });
-
+        
             // Scroll event for showing/hiding arrows based on scroll position
             modelTabs.addEventListener('scroll', checkScrollPosition);
-
+        
             // Initial check on page load
             checkScrollPosition();
-
+        
             // Click events for arrows
             leftArrow.addEventListener('click', () => {
                 modelTabs.scrollBy({ left: -300, behavior: 'smooth' });
             });
-
+        
             rightArrow.addEventListener('click', () => {
                 modelTabs.scrollBy({ left: 300, behavior: 'smooth' });
             });
-
-            // Document ready equivalent
+        
+            // Window resize event listener to handle mobile/desktop behavior
+            window.addEventListener('resize', handleResize);
+        
+            // Initial check to handle mobile view on load
             document.addEventListener('DOMContentLoaded', () => {
-                // Initially hide arrows until hovered
-                rightArrow.style.display = 'none';
-                leftArrow.style.display = 'none';
+                handleResize();
             });
-
-
-
-         </script>
+        </script>
+        
         <script>
           $(document).ready(function () {
             var windowWidth = $(window).width();
@@ -334,14 +351,14 @@
 
             // Scroll event for infinite loading when scrolling to the bottom
             $(window).on('scroll', function () {
-    var scrollPosition = $(window).scrollTop() + window.innerHeight;
-    var documentHeight = $(document).height();
+                var scrollPosition = $(window).scrollTop() + window.innerHeight;
+                var documentHeight = $(document).height();
 
-    // Check if the user has scrolled to the bottom or near the bottom of the page
-    if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
-        loadMoreImages(); // Load more images when close to the bottom
-    }
-});
+                // Check if the user has scrolled to the bottom or near the bottom of the page
+                if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
+                    loadMoreImages(); // Load more images when close to the bottom
+                }
+            });
 
             document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();

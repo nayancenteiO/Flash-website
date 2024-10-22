@@ -358,6 +358,22 @@ display: none;
 }
 
 @media(max-width:560px){
+  .container.slider-tab.scrolled::after, .container.slider-tab.scrolled::before{
+    width: 5%;
+  }
+  .container.slider-tab.scrolled::after{
+    left: 11px;
+  }
+  .arrow {
+      padding: 3px;
+  }
+  .arrow svg {
+    width: 20px;
+    height: 20px;
+}
+  .container.slider-tab.scrolled::before {
+      right: 9px;
+  }
   .profile_data_secound a {
       line-height: 14px;
       white-space: nowrap;
