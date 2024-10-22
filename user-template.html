@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1 id="username"></h1>
+    <p id="user-content">Loading user data...</p>
+
+    <script>
+        // Get the username from the URL
+        const path = window.location.pathname;
+        const username = path.split('/').pop();
+
+        // Fetch or display user data based on the username
+        document.getElementById('username').innerText = `Welcome, ${username}`;
+
+        // Optionally fetch user-specific data
+        fetch(`/data/users.json`) // Or use an API
+            .then(response => response.json())
+            .then(data => {
+                const userData = data[username];
+                if (userData) {
+                    document.getElementById('user-content').innerText = `Bio: ${userData.bio}`;
+                } else {
+                    document.getElementById('user-content').innerText = 'User data not found.';
+                }
+            });
+    </script>
+</body>
+</html>

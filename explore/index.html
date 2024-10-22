@@ -189,7 +189,7 @@
                         let imagesLoaded = 0;  // Track how many images are loaded
 
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');;
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
 
                             // Create main div for the image
                             let elem = $('<div></div>');
@@ -222,8 +222,11 @@
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
 
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
-                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+                            // let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            // let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+                            let username = item.user[0].userName.toLowerCase().replace(/\s+|\./g, '-'); // Generate a username-friendly URL
+                            let userNameLink = $('<a></a>').attr('href', `https://flashai.photo/${username}`).text(item.user[0].userName).attr('target', '_self');
+                            let userRoleLink = $('<a></a>').attr('href', `https://flashai.photo/${username}`).text(category).attr('target', '_self'); // Role can link to user page
 
                             profileInfo.append(userNameLink).append(userRoleLink);
                             profileData.append(profileImg).append(profileInfo);
