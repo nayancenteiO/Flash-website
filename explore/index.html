@@ -105,7 +105,7 @@
             }
         
             // Mouse down event for dragging
-            modelTabs.addEventListener('mousedown', (e) => {
+            sliderTab.addEventListener('mousedown', (e) => {
                 isDown = true;
                 modelTabs.classList.add('active');
                 startX = e.pageX - modelTabs.offsetLeft;
@@ -113,7 +113,7 @@
             });
         
             // Mouse leave event
-            modelTabs.addEventListener('mouseleave', () => {
+            sliderTab.addEventListener('mouseleave', () => {
                 isDown = false;
                 modelTabs.classList.remove('active');
                 if (window.innerWidth > 767) {
@@ -122,15 +122,17 @@
                 }
                 sliderTab.classList.remove('load');
             });
+
+            
         
             // Mouse up event
-            modelTabs.addEventListener('mouseup', () => {
+            sliderTab.addEventListener('mouseup', () => {
                 isDown = false;
                 modelTabs.classList.remove('active');
             });
         
             // Mouse move event for scrolling
-            modelTabs.addEventListener('mousemove', (e) => {
+            sliderTab.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - modelTabs.offsetLeft;
@@ -139,7 +141,7 @@
             });
         
             // Hover event to show arrows and add 'scrolled' class on larger screens
-            modelTabs.addEventListener('mouseenter', () => {
+            sliderTab.addEventListener('mouseenter', () => {
                 if (window.innerWidth > 767) {
                     checkScrollPosition(); // Show the arrows when hover starts
                     sliderTab.classList.add('scrolled'); // Add 'scrolled' class on hover
