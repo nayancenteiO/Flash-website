@@ -81,7 +81,7 @@
                 }
         
                 // Add 'scrolled' class to sliderTab if scroll starts
-                if (scrollLeftPos > 0 || window.innerWidth <= 767) {
+                if (scrollLeftPos > 0 ) {
                     sliderTab.classList.add('scrolled');
                 }
             }
@@ -90,7 +90,7 @@
             function handleResize() {
                 if (window.innerWidth <= 767) {
                     // Automatically show arrows on mobile
-                    sliderTab.classList.add('scrolled');
+                    // sliderTab.classList.add('scrolled');
                 } else {
                     rightArrow.style.display = 'none';
                     leftArrow.style.display = 'none';
