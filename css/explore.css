@@ -387,9 +387,7 @@ display: none;
   section.main-section-explore {
       padding: 50px 0px;
   }
-  .profile_data_secound a {
-      line-height: 20px;
-  }
+  
   .grid-item, .grid-sizer {
       width: 48%;
   }
