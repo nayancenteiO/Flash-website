@@ -231,7 +231,7 @@
                             const data = response.data;
                             let imagesLoaded = 0;  // Track how many images are loaded
 
-                            const newUrl = `/${data.userName.toLowerCase()}`;
+                            const newUrl = `/user/${data.userName.toLowerCase()}`;
                             window.history.pushState({}, '', newUrl);
 
                             // Set user profile data
