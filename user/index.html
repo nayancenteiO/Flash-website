@@ -213,7 +213,7 @@
                 let loadedCategories = new Set();  // Keep track of loaded categories
                 let isFetching = false;  // To prevent multiple fetches at once
                 let activeTabId = '🪩-trending'; 
-
+                const userId = localStorage.getItem('_id'); 
                 function loadimages1() {
                     if (isFetching) return;
                     isFetching = true;  // Set fetching flag to true
@@ -224,7 +224,7 @@
                     let profilename = $(".profile-name");
 
                     $.ajax({
-                        url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/663e307180d04a8c663c27b9?page=${currentPage}&perPage=50&isUserId=true`,
+                        url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${userId}?page=${currentPage}&perPage=50&isUserId=true`,
                         method: 'GET',
                         success: function (response) {
                             const data = response.data;
@@ -251,14 +251,14 @@
                             if (profilename.length) {
                                 profilename.text(data.userName);
                             }
+                            console.log(data.userName.toLowerCase());
+                            
+                            const newUrl = `/user/${data.userName.toLowerCase()}`;
+                            window.history.pushState({}, '', newUrl);
 
                             // Loop through images
                             data.images.forEach(item => {
                                 let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
-
-                                // Check if the username is 'noriy'
-                                if (data.userName.toLowerCase() === 'noriy') {
-
                                     // Create main div for the image
                                     let elem = $('<div></div>');
                                     elem.addClass("main-data-lens")
@@ -297,7 +297,7 @@
 
                                     // Append the main div to the container
                                     container.append(elem);
-                                }
+                                    localStorage.removeItem('_id');
                             });
 
                             showGallery();

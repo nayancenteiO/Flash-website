@@ -259,7 +259,12 @@
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
 
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            let userNameLink = $('<a></a>')
+                                .addClass("profile")
+                                .attr('id', item.user[0]._id) 
+                                .attr('href', "../user/index.html")
+                                .text(item.user[0].userName)
+                                .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
@@ -329,7 +334,12 @@
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
 
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            let userNameLink = $('<a></a>')
+                                .addClass("profile")
+                                .attr('id', item.user[0]._id) 
+                                .attr('href', "../user/index.html")
+                                .text(item.user[0].userName)
+                                .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
@@ -411,7 +421,11 @@
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
                             
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                            let userNameLink = $('<a></a>').attr('href', item.user[0].profileLink).text(item.user[0].userName).attr('target', '_blank');
+                            let userNameLink = $('<a></a>').addClass("profile")
+                                .attr('id', item.user[0]._id) 
+                                .attr('href', "../user/index.html")
+                                .text(item.user[0].userName)
+                                .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
@@ -606,6 +620,17 @@
                     
                 });
 
+                $(document).on('click', '.profile', function (e) {
+                    e.preventDefault(); // Prevent default link behavior
+                    const userId = $(this).attr('id'); // Get user ID from the clicked element
+
+                    // Clear previous data and set new _id in local storage
+                    localStorage.clear();
+                    localStorage.setItem('_id', userId);
+
+                    // Redirect to the user profile page
+                    window.open('../user/index.html', '_blank');
+                });
 
 
         </script>
