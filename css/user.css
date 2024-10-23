@@ -156,8 +156,8 @@ section.banner-image > img {
     .profile-pic {
         width: 100px;
         height: 100px;
-        outline: 13px solid #000;
-        margin-top: -50px;
+        outline: 7px solid #000 !important;
+        margin-top: -50px !important;
     }
   }
   @media(max-width:380px){
