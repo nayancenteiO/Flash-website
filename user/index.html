@@ -35,13 +35,13 @@
 </head>
 <body>
     <section class="banner-image">
-       
+       <img src="../images/dummy-banner.jpg" alt="">
     </section>
     <section class="main-data-user">
         <div class="container">
             <div class="profile-header">
-                <img src="" alt="Profile Picture" class="profile-pic">
-                <h1 class="profile-name"></h1>
+                <img src="../images/dummy-profile.jpg" alt="Profile Picture" class="profile-pic">
+                <h1 class="profile-name">---</h1>
                 <p class="profile-username">@noriy</p>
                 <p class="profile-username degignation"></p>
                 <div class="profile-actions">
@@ -196,15 +196,17 @@
                 });
 
                 // Set container visibility to hidden initially
-                // $('.conmtainer_dtat').hide();
-                $('.banner-image').hide();
-                $('.main-data-user').hide();
+                $('.conmtainer_dtat').hide();
+                // $('.banner-image').hide();
+                // $('.main-data-user').hide();
 
                 function showGallery() {
                     // Fade in the gallery once Masonry layout is set
-                    $(".main-data-lens").fadeIn(2000);
-                    $('.banner-image').fadeIn(500);
-                    $(".main-data-user").fadeIn(1500);
+                    // $(".main-data-lens").fadeIn(2000);
+                    // $('.banner-image').fadeIn();
+                    // $(".main-data-user").fadeIn();
+                    $('.conmtainer_dtat').fadeIn(3000);
+                    $(".main-data-lens").fadeIn(1000);
                 }
 
                 let currentPage = 1;  // Track the current page for loading images
@@ -235,6 +237,7 @@
                                 if (item.user[0].userName.toLowerCase() === 'noriy') {
 
                                     if (!noneimage.find('.profile-cover-pic').length) {
+                                        noneimage.empty();
                                         let profileImg = $('<img>')
                                             .attr('src', item.user[0].coverPic)
                                             .attr('alt', 'user_coverpic')
@@ -278,7 +281,6 @@
                                         if (imagesLoaded === data.length) {
                                             container.masonry('layout');
                                             showGallery();
-                                            
                                         }
                                     });
 
