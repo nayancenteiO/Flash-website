@@ -99,6 +99,13 @@
     margin: 0px;
     box-sizing: border-box;
   }
+  .profile_data_secound sapn {
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    line-height: 16px;
+    color: #ffffff96;
+}
 
   body {
     -webkit-user-select: none; /* Safari */
@@ -109,6 +116,7 @@
 
 .profile_data_secound a:last-child {
   color: #ffffff96;
+  pointer-events: none;
 }
  
 img {
@@ -180,6 +188,9 @@ display: none;
   border-radius: 26px;
       padding: 3px;
 }
+span#🪩-trending {
+  height: 25px;
+}
 .arrow-left {
   left:13px;
   flex-direction: row;
@@ -228,6 +239,7 @@ display: none;
   /* border-bottom: 0px solid #fff; */
   margin-right: 10px;
   transition: liner;
+  transition: all 0.5s;
 }
 
 /* .model_tabs span:first-child {
@@ -240,7 +252,7 @@ display: none;
 
 .tab-names.active {
   color: #fff;
-  border-bottom: 1px solid #fff;
+  border-bottom: 0.5px solid #fff;
   
 }
 .pading-less {
