@@ -205,7 +205,7 @@
                     // $(".main-data-lens").fadeIn(2000);
                     // $('.banner-image').fadeIn();
                     // $(".main-data-user").fadeIn();
-                    $('.conmtainer_dtat').fadeIn(3000);
+                    $('.conmtainer_dtat').fadeIn(4000);
                     $(".main-data-lens").fadeIn(1000);
                 }
 
@@ -222,38 +222,42 @@
                     let degignation = $(".degignation");
                     let existingProfileImg = $(".profile-pic");
                     let profilename = $(".profile-name");
-                
+
                     $.ajax({
-                        url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=50&page=${currentPage}`,
+                        url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/663e307180d04a8c663c27b9?page=${currentPage}&perPage=50&isUserId=true`,
                         method: 'GET',
                         success: function (response) {
                             const data = response.data;
                             let imagesLoaded = 0;  // Track how many images are loaded
 
-                            data.forEach(item => {
-                                let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
-                                
-                                // Check if the username is 'nori'
-                                if (item.user[0].userName.toLowerCase() === 'noriy') {
+                            // Set user profile data
+                            if (!noneimage.find('.profile-cover-pic').length) {
+                                noneimage.empty();
+                                let profileImg = $('<img>')
+                                    .attr('src', data.coverPic)
+                                    .attr('alt', 'user_coverpic')
+                                    .addClass('profile-cover-pic');
+                                noneimage.append(profileImg);
+                            }
 
-                                    if (!noneimage.find('.profile-cover-pic').length) {
-                                        noneimage.empty();
-                                        let profileImg = $('<img>')
-                                            .attr('src', item.user[0].coverPic)
-                                            .attr('alt', 'user_coverpic')
-                                            .addClass('profile-cover-pic');
-                                        noneimage.append(profileImg);
-                                    }
-                                    if (!degignation.find('.degignation-image').length) {
-                                        
-                                            degignation.text(item.user[0].profileFeed);
-                                    }
-                                    if (existingProfileImg.length) {
-                                        existingProfileImg.attr('src', item.user[0].profilePicture);
-                                    }
-                                    if (profilename.length) {
-                                        profilename.text(item.user[0].userName);
-                                    }
+                            if (!degignation.find('.degignation-image').length) {
+                                degignation.text(data.profileFeed);
+                            }
+
+                            if (existingProfileImg.length) {
+                                existingProfileImg.attr('src', data.profilePicture);
+                            }
+
+                            if (profilename.length) {
+                                profilename.text(data.userName);
+                            }
+
+                            // Loop through images
+                            data.images.forEach(item => {
+                                let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+
+                                // Check if the username is 'noriy'
+                                if (data.userName.toLowerCase() === 'noriy') {
 
                                     // Create main div for the image
                                     let elem = $('<div></div>');
@@ -274,7 +278,7 @@
                                         elem.fadeIn(1000);
 
                                         // Once all images are loaded, relayout Masonry
-                                        if (imagesLoaded === data.length) {
+                                        if (imagesLoaded === data.images.length) {
                                             container.masonry('layout');
                                             showGallery();
                                         }
@@ -285,7 +289,7 @@
                                     // Create profile data div
                                     let profileData = $('<div></div>').addClass("profile_data");
                                     let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                                    let userRoleLink = $('<sapn></span>').text(category); // Role can be customized
+                                    let userRoleLink = $('<span></span>').text(category); // Role can be customized
 
                                     profileInfo.append(userRoleLink);
                                     profileData.append(profileInfo);
@@ -293,11 +297,10 @@
 
                                     // Append the main div to the container
                                     container.append(elem);
-
                                 }
                             });
+
                             showGallery();
-                            // showGallery2();
                             isFetching = false;  // Reset the fetching flag
                         },
                         error: function (error) {
@@ -306,9 +309,6 @@
                         }
                     });
                 }
-
-
-                
                 $(window).on('scroll', function () {
                     var scrollPosition = $(window).scrollTop() + window.innerHeight;
                     var documentHeight = $(document).height();
@@ -354,83 +354,83 @@
                     }
 
                     // Load the categories with icons
-                    function loadCategoriesWithIcons() {
+                    // function loadCategoriesWithIcons() {
                         
-                        // Add the "🪩 trending" tab as the first tab and mark it as active
-                        let trendingTab = $('<span></span>')
-                            .addClass('tab-names active')  // Mark as active
-                            .attr('id', '🪩-trending')
-                            .html(`🪩 Trending`);
-                        tabsnames.append(trendingTab);  // Add "🪩 trending" tab first
+                    //     // Add the "🪩 trending" tab as the first tab and mark it as active
+                    //     let trendingTab = $('<span></span>')
+                    //         .addClass('tab-names active')  // Mark as active
+                    //         .attr('id', '🪩-trending')
+                    //         .html(`🪩 Trending`);
+                    //     tabsnames.append(trendingTab);  // Add "🪩 trending" tab first
 
-                        // Fetch data from APIs
-                        $.when(fetchCategoryData(), fetchCategoryImages()).done(function (categoryDataResponse, categoryImagesResponse) {
-                            const categoryData = categoryDataResponse[0].data;  // Access the data from the first API
-                            const categoryImages = categoryImagesResponse[0].data;  // Access the data from the second API
+                    //     // Fetch data from APIs
+                    //     $.when(fetchCategoryData(), fetchCategoryImages()).done(function (categoryDataResponse, categoryImagesResponse) {
+                    //         const categoryData = categoryDataResponse[0].data;  // Access the data from the first API
+                    //         const categoryImages = categoryImagesResponse[0].data;  // Access the data from the second API
                             
                         
-                            // Create a map of sanitized category name to category image
-                            categoryImages.forEach(item => {
-                                const sanitizedLensName = item.lensName;
-                                categoryImagesMap[sanitizedLensName] = item.image; 
-                            });
+                    //         // Create a map of sanitized category name to category image
+                    //         categoryImages.forEach(item => {
+                    //             const sanitizedLensName = item.lensName;
+                    //             categoryImagesMap[sanitizedLensName] = item.image; 
+                    //         });
                         
-                            // Generate the remaining tabs with icons from category data
-                            const loadedCategories = new Set();  // To track the loaded categories
-                            categoryData.forEach(item => {
-                                const sanitizedCategory = item.name;  // Sanitize category name
-                            const cateID = item.name.toLowerCase().replace(/\s+|\./g, '-');;
+                    //         // Generate the remaining tabs with icons from category data
+                    //         const loadedCategories = new Set();  // To track the loaded categories
+                    //         categoryData.forEach(item => {
+                    //             const sanitizedCategory = item.name;  // Sanitize category name
+                    //         const cateID = item.name.toLowerCase().replace(/\s+|\./g, '-');;
                             
-                                // If the category is not already loaded, create the tab
-                                if (!loadedCategories.has(sanitizedCategory)) {
-                                    let categoryId = sanitizedCategory;  // Category ID for the tab
+                    //             // If the category is not already loaded, create the tab
+                    //             if (!loadedCategories.has(sanitizedCategory)) {
+                    //                 let categoryId = sanitizedCategory;  // Category ID for the tab
 
-                                    // Find the corresponding image for the sanitized category
-                                    let categoryIcon = categoryImagesMap[sanitizedCategory] || '../images/start-slash.png';  // Default icon if not available
+                    //                 // Find the corresponding image for the sanitized category
+                    //                 let categoryIcon = categoryImagesMap[sanitizedCategory] || '../images/start-slash.png';  // Default icon if not available
 
-                                    // Create the tab element with icon
-                                    let tab = $('<span></span>')
-                                        .addClass('tab-names')
-                                        .attr('id', cateID)
-                                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${item.name}`);
+                    //                 // Create the tab element with icon
+                    //                 let tab = $('<span></span>')
+                    //                     .addClass('tab-names')
+                    //                     .attr('id', cateID)
+                    //                     .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${item.name}`);
 
-                                    tabsnames.append(tab);  // Append tab to the container
-                                    loadedCategories.add(sanitizedCategory);  // Mark this category as loaded
-                                }
-                            });
+                    //                 tabsnames.append(tab);  // Append tab to the container
+                    //                 loadedCategories.add(sanitizedCategory);  // Mark this category as loaded
+                    //             }
+                    //         });
 
-                            // Set up click behavior for the tabs
-                            $('.model_tabs').on('click', '.tab-names', function () {
+                    //         // Set up click behavior for the tabs
+                    //         $('.model_tabs').on('click', '.tab-names', function () {
                                 
-                                let tabId = $(this).attr('id');
-                                $('.tab-names').removeClass('active');
-                                $(this).addClass('active');
+                    //             let tabId = $(this).attr('id');
+                    //             $('.tab-names').removeClass('active');
+                    //             $(this).addClass('active');
 
-                                if (tabId === '🪩-trending') {
-                                    $(".conmtainer_dtat").removeClass("grid2");
-                                    // let containerss = $(".model_tabs");
-                                    // containerss.empty();
-                                    // $(".conmtainer_dtat").empty();
-                                    // loadCategoriesWithIcons();
-                                    // loadimages2(); 
-                                    // showGallery2();
-                                    $(".main-data-lens").fadeIn(700);
-                                    // Load trending images
-                                } else {
-                                    debugger;
-                                    $(".main-data-lens").hide();
-                                    $(".grid-sizer").hide();
-                                    $(".conmtainer_dtat").addClass("grid2");
-                                    $(".main-data-lens." + tabId).fadeIn(700);
+                    //             if (tabId === '🪩-trending') {
+                    //                 $(".conmtainer_dtat").removeClass("grid2");
+                    //                 // let containerss = $(".model_tabs");
+                    //                 // containerss.empty();
+                    //                 // $(".conmtainer_dtat").empty();
+                    //                 // loadCategoriesWithIcons();
+                    //                 // loadimages2(); 
+                    //                 // showGallery2();
+                    //                 $(".main-data-lens").fadeIn(700);
+                    //                 // Load trending images
+                    //             } else {
+                    //                 debugger;
+                    //                 $(".main-data-lens").hide();
+                    //                 $(".grid-sizer").hide();
+                    //                 $(".conmtainer_dtat").addClass("grid2");
+                    //                 $(".main-data-lens." + tabId).fadeIn(700);
                                     
-                                }
-                            });
-                        }).fail(function (error) {
-                            console.error('Error loading category or images data:', error);
-                        });
-                    }
+                    //             }
+                    //         });
+                    //     }).fail(function (error) {
+                    //         console.error('Error loading category or images data:', error);
+                    //     });
+                    // }
 
-                    loadCategoriesWithIcons();
+                    // loadCategoriesWithIcons();
 
                     loadimages1();
     </script>
