@@ -214,7 +214,7 @@
                 let isFetching = false;  // To prevent multiple fetches at once
                 let activeTabId = '🪩-trending'; 
                 const userId = localStorage.getItem('_id'); 
-                
+
                 function loadimages1() {
                     if (isFetching) return;
                     isFetching = true;  // Set fetching flag to true
@@ -230,6 +230,9 @@
                         success: function (response) {
                             const data = response.data;
                             let imagesLoaded = 0;  // Track how many images are loaded
+
+                            const newUrl = `/${data.userName.toLowerCase()}`;
+                            window.history.pushState({}, '', newUrl);
 
                             // Set user profile data
                             if (!noneimage.find('.profile-cover-pic').length) {
@@ -252,9 +255,6 @@
                             if (profilename.length) {
                                 profilename.text(data.userName);
                             }
-                            
-                            const newUrl = `/user/${data.userName.toLowerCase()}`;
-                            window.history.pushState({}, '', newUrl);
 
                             // Loop through images
                             data.images.forEach(item => {
@@ -309,6 +309,7 @@
                         }
                     });
                 }
+                
                 $(window).on('scroll', function () {
                     var scrollPosition = $(window).scrollTop() + window.innerHeight;
                     var documentHeight = $(document).height();
