@@ -214,6 +214,7 @@
                 let isFetching = false;  // To prevent multiple fetches at once
                 let activeTabId = '🪩-trending'; 
                 const userId = localStorage.getItem('_id'); 
+                
                 function loadimages1() {
                     if (isFetching) return;
                     isFetching = true;  // Set fetching flag to true
@@ -251,7 +252,6 @@
                             if (profilename.length) {
                                 profilename.text(data.userName);
                             }
-                            console.log(data.userName.toLowerCase());
                             
                             const newUrl = `/user/${data.userName.toLowerCase()}`;
                             window.history.pushState({}, '', newUrl);
