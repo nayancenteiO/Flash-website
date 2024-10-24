@@ -198,6 +198,15 @@
                                 
                                     // localStorage.setItem('_id', userId); 
                                     loadimages1(userId);
+
+                                    $(window).on('scroll', function () {
+                                        var scrollPosition = $(window).scrollTop() + window.innerHeight;
+                                        var documentHeight = $(document).height();
+
+                                        if (scrollPosition >= documentHeight - 100) {
+                                            loadMoreImages(userId); // Load more images when close to the bottom
+                                        }
+                                    });
                                 } else {
                                     console.error('User not found');
                                 }
@@ -341,14 +350,14 @@
                     });
                 }
                 
-                $(window).on('scroll', function () {
-                    var scrollPosition = $(window).scrollTop() + window.innerHeight;
-                    var documentHeight = $(document).height();
+                // $(window).on('scroll', function () {
+                //     var scrollPosition = $(window).scrollTop() + window.innerHeight;
+                //     var documentHeight = $(document).height();
 
-                    if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
-                        loadMoreImages(); // Load more images when close to the bottom
-                    }
-                });
+                //     if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
+                //         loadMoreImages(); // Load more images when close to the bottom
+                //     }
+                // });
                 $(document).on('click', '.tab-names', function () {
                     activeTabId = $(this).attr('id');  // Update the active tab ID
                 });
