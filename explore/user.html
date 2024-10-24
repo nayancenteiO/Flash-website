@@ -26,7 +26,7 @@
     <link rel="icon" href="../images/flash_favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/stylesheet.css">
     <link rel="stylesheet" href="../css/user.css">
-    <link rel="stylesheet" href=".../css/explore.css">
+    <link rel="stylesheet" href="../css/explore.css">
     <meta name="description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
     <title>Profile</title>
     <style>
@@ -186,8 +186,8 @@
          $(document).ready(function() {
             debugger;
             const currentURL = window.location.pathname;
-            const parts = currentURL.split("/").filter(Boolean); // Filter out any empty parts caused by slashes
-            let userName = parts.length > 2 ? parts[2] : null; // Extracts the username
+            const parts = currentURL.split("/").filter(Boolean); // Split by '/' and remove empty parts
+            let userName = parts.pop();// Extracts the username
                         // localStorage.removeItem('_id');
                         // Fetch user ID and images
                         document.title = `Profile - ${userName}`;
