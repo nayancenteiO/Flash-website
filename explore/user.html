@@ -185,8 +185,9 @@
     <script>
          $(document).ready(function() {
             debugger;
-                        const currentURL = window.location.pathname;
-                        const userName = currentURL.split("/").pop(); // Extracts the username
+            const currentURL = window.location.pathname;
+            const parts = currentURL.split("/").filter(Boolean); // Filter out any empty parts caused by slashes
+            let userName = parts.length > 2 ? parts[2] : null; // Extracts the username
                         // localStorage.removeItem('_id');
                         // Fetch user ID and images
                         document.title = `Profile - ${userName}`;
