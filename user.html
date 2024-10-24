@@ -352,10 +352,10 @@
                 $(document).on('click', '.tab-names', function () {
                     activeTabId = $(this).attr('id');  // Update the active tab ID
                 });
-                function loadMoreImages() {
+                function loadMoreImages(userId) {
                     if (isFetching) return;  // Prevent multiple fetches
                     currentPage++;  // Increment the page number
-                    loadimages1();  
+                    loadimages1(userId);  
                 }
                 document.addEventListener('contextmenu', function(event) {
                     event.preventDefault();
