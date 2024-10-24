@@ -189,6 +189,7 @@
                         const userName = currentURL.split("/").pop(); // Extracts the username
                         // localStorage.removeItem('_id');
                         // Fetch user ID and images
+                        document.title = `Profile - ${userName}`;
                         $.ajax({
                             url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=200`,
                             method: 'GET',
