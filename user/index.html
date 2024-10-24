@@ -42,7 +42,7 @@
             <div class="profile-header">
                 <img src="../images/dummy-profile.jpg" alt="Profile Picture" class="profile-pic">
                 <h1 class="profile-name">....</h1>
-                <p class="profile-username">@noriy</p>
+                <p class="profile-username user-app">....</p>
                 <p class="profile-username degignation">....</p>
                 <div class="profile-actions">
                     <button class="btn btn-secondary btn-icon"><i class="fas fa-share"></i></button>
@@ -215,6 +215,7 @@
                 let activeTabId = '🪩-trending'; 
                 const userId = localStorage.getItem('_id'); 
                 const nameid = userId;
+
                 function loadimages1() {
                     if (isFetching) return;
                     isFetching = true;  // Set fetching flag to true
@@ -223,6 +224,7 @@
                     let degignation = $(".degignation");
                     let existingProfileImg = $(".profile-pic");
                     let profilename = $(".profile-name");
+                    let userapp = $(".user-app");
 
                     $.ajax({
                         url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${nameid}?page=${currentPage}&perPage=50&isUserId=true`,
@@ -254,6 +256,10 @@
 
                             if (profilename.length) {
                                 profilename.text(data.userName);
+                            }
+
+                            if (userapp.length) {
+                                userapp.text(`@${data.userName}`);
                             }
 
                             // Loop through images
@@ -434,6 +440,29 @@
                     // loadCategoriesWithIcons();
 
                     loadimages1();
+
+                    $(document).ready(function() {
+                    const currentURL = window.location.pathname;
+                    const userName = currentURL.split("/").pop(); // Extracts the username
+
+                    // Fetch user ID and images
+                    $.ajax({
+                        url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=200`,
+                        method: 'GET',
+                        success: function(response) {
+                            if (response.data.length > 0) {
+                                const userId = response.data[0]._id;  // Assuming the first result is the correct user
+                                localStorage.setItem('_id', userId); 
+                            } else {
+                                console.error('User not found');
+                            }
+                        },
+                        error: function(error) {
+                            console.error('Error fetching user ID:', error);
+                        }
+                    });
+                });
+
     </script>
 </body>
 </html>

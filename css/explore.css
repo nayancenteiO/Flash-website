@@ -308,6 +308,7 @@ span#🪩-trending {
 }
 .profile_data_secound > a:first-child {
   font-weight: 700;
+  text-transform: capitalize;
 }
 
 .slider {

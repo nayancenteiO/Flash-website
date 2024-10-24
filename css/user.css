@@ -22,6 +22,7 @@
     font-weight: bold;
     margin: 10px 0 5px;
     color: #fff;
+    text-transform: capitalize;
 }
 .profile-username {
     color: #ffffff5e;
@@ -117,7 +118,7 @@ section.banner-image > img {
     object-position: center;
 }
 .profile-header img.profile-pic {
-    outline: 14px solid #000;
+    outline: 6px solid #000;
     margin-top: -60px;
 }
 /* Media */
@@ -156,7 +157,7 @@ section.banner-image > img {
     .profile-pic {
         width: 100px;
         height: 100px;
-        outline: 7px solid #000 !important;
+        outline: 4px solid #000 !important;
         margin-top: -50px !important;
     }
   }
