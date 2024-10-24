@@ -187,7 +187,6 @@
                 $('.model_tabs').hide();
 
                 function showGallery() {
-                    $('.model_tabs').fadeIn(500);
                     // Fade in the gallery once Masonry layout is set
                     $('.conmtainer_dtat').fadeIn(2000);
                     $(".main-data-lens").fadeIn(1000);
@@ -584,7 +583,7 @@
 
                                     tabsnames.append(tab);  // Append tab to the container
                                     loadedCategories.add(sanitizedCategory);  
-                                    showGallery3()// Mark this category as loaded
+                                   // Mark this category as loaded
                                 }
                             });
 
@@ -617,10 +616,10 @@
                             console.error('Error loading category or images data:', error);
                         });
                     }
-
+                   
                     // Call the function to load categories with icons
                     loadCategoriesWithIcons();
-                    
+                    showGallery3();
 
                     // Load the trending tab content on page load
                     loadimages1();
