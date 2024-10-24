@@ -264,7 +264,7 @@
                             let userNameLink = $('<a></a>')
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', `/explore/${userName}`)
+                                .attr('href', `/explore/${userNames}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -334,12 +334,12 @@
                             // Create profile data div
                             let profileData = $('<div></div>').addClass("profile_data");
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
-
+                            let userNames = item.user[0].userName;
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
                             let userNameLink = $('<a></a>')
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', `/explore/${userName}`)
+                                .attr('href', `/explore/${userNames}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -421,11 +421,11 @@
                             // Create profile data div
                             let profileData = $('<div></div>').addClass("profile_data");
                             let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
-                            
+                            let userNames = item.user[0].userName;
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
                             let userNameLink = $('<a></a>').addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', `/explore/${userName}`)
+                                .attr('href', `/explore/${userNames}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
