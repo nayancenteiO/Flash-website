@@ -184,6 +184,7 @@
     
     <script>
          $(document).ready(function() {
+            debugger;
                         const currentURL = window.location.pathname;
                         const userName = currentURL.split("/").pop(); // Extracts the username
                         localStorage.removeItem('_id');
@@ -196,6 +197,7 @@
                                     const userId = response.data[0]._id;  // Assuming the first result is the correct user
                                 
                                     localStorage.setItem('_id', userId); 
+                                    loadimages1();
                                 } else {
                                     console.error('User not found');
                                 }
@@ -205,6 +207,7 @@
                             }
                         });
                     });
+                    debugger;
          var windowWidth = $(window).width();
             var gutterValue = windowWidth < 767 ? 14 : 20;
                 $('.conmtainer_dtat').masonry({
@@ -234,10 +237,11 @@
                 let loadedCategories = new Set();  // Keep track of loaded categories
                 let isFetching = false;  // To prevent multiple fetches at once
                 let activeTabId = '🪩-trending'; 
-                const userId = localStorage.getItem('_id'); 
-                const nameid = userId;
+                const userIds = localStorage.getItem('_id'); 
+                const nameid = userIds;
 
                 function loadimages1() {
+                    debugger;
                     if (isFetching) return;
                     isFetching = true;  // Set fetching flag to true
                     let container = $(".conmtainer_dtat");
@@ -460,7 +464,7 @@
 
                     // loadCategoriesWithIcons();
 
-                    loadimages1();
+                    
 
                    
 
