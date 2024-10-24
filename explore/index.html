@@ -187,7 +187,7 @@
                 $('.model_tabs').hide();
 
                 function showGallery() {
-                    $('.model_tabs').fadeIn(3000);
+                    $('.model_tabs').fadeIn(500);
                     // Fade in the gallery once Masonry layout is set
                     $('.conmtainer_dtat').fadeIn(2000);
                     $(".main-data-lens").fadeIn(1000);
@@ -268,7 +268,7 @@
                             let userNameLink = $('<a></a>')
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', "../user/index.html")
+                                .attr('href', `../user/${item.user[0].userName}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -343,7 +343,7 @@
                             let userNameLink = $('<a></a>')
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', "../user/index.html")
+                                .attr('href', `../user/${item.user[0].userName}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -429,7 +429,7 @@
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
                             let userNameLink = $('<a></a>').addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', "../user/index.html")
+                                .attr('href', `../user/${item.user[0].userName}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -627,11 +627,11 @@
                     
                 });
 
-                $(document).on('click', '.profile', function (e) {
-                    e.preventDefault(); // Prevent default link behavior
-                    const userId = $(this).text(); 
-                    window.open(`/user/${userId}`, '_blank');
-                });
+                // $(document).on('click', '.profile', function (e) {
+                //     e.preventDefault(); // Prevent default link behavior
+                //     const userId = $(this).text(); 
+                //     window.open(`/user/${userId}`, '_blank');
+                // });
 
 
         </script>
