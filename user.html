@@ -187,7 +187,7 @@
             debugger;
                         const currentURL = window.location.pathname;
                         const userName = currentURL.split("/").pop(); // Extracts the username
-                        localStorage.removeItem('_id');
+                        // localStorage.removeItem('_id');
                         // Fetch user ID and images
                         $.ajax({
                             url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=200`,
@@ -196,8 +196,8 @@
                                 if (response.data.length > 0) {
                                     const userId = response.data[0]._id;  // Assuming the first result is the correct user
                                 
-                                    localStorage.setItem('_id', userId); 
-                                    loadimages1();
+                                    // localStorage.setItem('_id', userId); 
+                                    loadimages1(userId);
                                 } else {
                                     console.error('User not found');
                                 }
@@ -237,10 +237,10 @@
                 let loadedCategories = new Set();  // Keep track of loaded categories
                 let isFetching = false;  // To prevent multiple fetches at once
                 let activeTabId = '🪩-trending'; 
-                const userIds = localStorage.getItem('_id'); 
-                const nameid = userIds;
+                // const userIds = localStorage.getItem('_id'); 
+                // const nameid = userIds;
 
-                function loadimages1() {
+                function loadimages1(userId) {
                     debugger;
                     if (isFetching) return;
                     isFetching = true;  // Set fetching flag to true
@@ -252,7 +252,7 @@
                     let userapp = $(".user-app");
 
                     $.ajax({
-                        url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${nameid}?page=${currentPage}&perPage=50&isUserId=true`,
+                        url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${userId}?page=${currentPage}&perPage=50&isUserId=true`,
                         method: 'GET',
                         success: function (response) {
                             const data = response.data;
