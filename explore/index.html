@@ -267,7 +267,7 @@
                             let userNameLink = $('<a></a>')
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', `../user/${item.user[0].userName}`)
+                                .attr('href', `/${item.user[0].userName}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -342,7 +342,7 @@
                             let userNameLink = $('<a></a>')
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', `../user/${item.user[0].userName}`)
+                                .attr('href', `/${item.user[0].userName}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
@@ -428,7 +428,7 @@
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
                             let userNameLink = $('<a></a>').addClass("profile")
                                 .attr('id', item.user[0]._id) 
-                                .attr('href', `../user/${item.user[0].userName}`)
+                                .attr('href', `/${item.user[0].userName}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
