@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://flashai.photo/explore">
+     <!-- Open Graph Meta Tags (for Facebook, Instagram, etc.) -->
+    <meta property="og:title" content="Flash AI Photo Generator">
+    <meta property="og:description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
+    <meta property="og:image" content="https://flashai.photo/images/og-image.png">
+    <meta property="og:url" content="https://flashai.photo/explore">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags (for Twitter) -->
+    <meta name="twitter:card" content="Flash AI Photo Generator">
+    <meta name="twitter:title" content="Flash AI Photo Generator">
+    <meta name="twitter:description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
+    <meta name="twitter:image" content="https://flashai.photo/images/og-image.png">
+    <meta name="twitter:url" content="https://flashai.photo/explore">
+    
+    <!-- Prevent indexing -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="../images/flash_favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/stylesheet.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href=".../css/explore.css">
+    <meta name="description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
+    <title>Profile</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <section class="banner-image">
+       <img src="../images/dummy-banner.jpg" alt="">
+    </section>
+    <section class="main-data-user">
+        <div class="container">
+            <div class="profile-header">
+                <img src="../images/dummy-profile.jpg" alt="Profile Picture" class="profile-pic">
+                <h1 class="profile-name">....</h1>
+                <p class="profile-username user-app">....</p>
+                <p class="profile-username degignation">....</p>
+                <div class="profile-actions">
+                    <button class="btn btn-secondary btn-icon"><i class="fas fa-share"></i></button>
+                    <button class="btn btn-secondary btn-icon"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+            </div>
+            <!-- <div class="container slider-tab">
+                <span class="arrow arrow-left"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg></span> 
+                <span class="arrow arrow-right"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg></span>
+                <div class="model_tabs">
+                </div>
+            </div> -->
+            <div class="conmtainer_dtat grid">
+                <div class="grid-sizer"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script> -->
+    <script src="../js/masoonary.js"></script>
+    <!-- <script>
+        const modelTabs = document.querySelector('.model_tabs');
+        const sliderTab = document.querySelector('.slider-tab');
+        const leftArrow = document.querySelector('.arrow-left');
+        const rightArrow = document.querySelector('.arrow-right');
+    
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+    
+        // Function to check scroll position
+        function checkScrollPosition() {
+            const scrollLeftPos = modelTabs.scrollLeft;
+            const maxScrollLeft = modelTabs.scrollWidth - modelTabs.clientWidth;
+    
+            // Show/hide left arrow based on scroll position
+            if (scrollLeftPos > 0) {
+                leftArrow.style.display = 'flex';
+            } else {
+                leftArrow.style.display = 'none';
+            }
+    
+            // Show/hide right arrow based on scroll position
+            if (scrollLeftPos >= maxScrollLeft) {
+                rightArrow.style.display = 'none';
+                sliderTab.classList.add('load');
+            } else {
+                rightArrow.style.display = 'flex';
+                sliderTab.classList.remove('load');
+            }
+    
+            // Add 'scrolled' class to sliderTab if scroll starts
+            if (scrollLeftPos > 0) {
+                sliderTab.classList.add('scrolled');
+            } else {
+                sliderTab.classList.remove('scrolled');
+            }
+        }
+    
+        // Function to handle screen resize and check if on mobile
+        function handleResize() {
+            if (window.innerWidth <= 767) {
+                // On mobile, ensure the arrows are always displayed
+                leftArrow.style.display = 'none';
+                rightArrow.style.display = 'none';
+            } else {
+                checkScrollPosition();
+            }
+        }
+    
+        // Mouse down event for dragging
+        sliderTab.addEventListener('mousedown', (e) => {
+            isDown = true;
+            modelTabs.classList.add('active');
+            startX = e.pageX - modelTabs.offsetLeft;
+            scrollLeft = modelTabs.scrollLeft;
+        });
+    
+        // Mouse leave event
+        sliderTab.addEventListener('mouseleave', () => {
+            isDown = false;
+            modelTabs.classList.remove('active');
+            if (window.innerWidth > 767) {
+                leftArrow.style.display = 'none';
+                rightArrow.style.display = 'none';
+            }
+        });
+    
+        // Mouse up event
+        sliderTab.addEventListener('mouseup', () => {
+            isDown = false;
+            modelTabs.classList.remove('active');
+            checkScrollPosition();  // Ensure correct arrow visibility after scrolling
+        });
+    
+        // Mouse move event for scrolling
+        sliderTab.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - modelTabs.offsetLeft;
+            const walk = (x - startX) * 2;
+            modelTabs.scrollLeft = scrollLeft - walk;
+            checkScrollPosition();  // Update arrow visibility while scrolling
+        });
+    
+        // Hover event to show arrows and add 'scrolled' class on larger screens
+        sliderTab.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 767) {
+                checkScrollPosition(); // Show arrows on hover based on scroll position
+            }
+        });
+    
+        // Scroll event for showing/hiding arrows based on scroll position
+        modelTabs.addEventListener('scroll', checkScrollPosition);
+    
+        // Initial check on page load
+        checkScrollPosition();
+    
+        // Click events for arrows
+        leftArrow.addEventListener('click', () => {
+            modelTabs.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+    
+        rightArrow.addEventListener('click', () => {
+            modelTabs.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+    
+        // Window resize event listener to handle mobile/desktop behavior
+        window.addEventListener('resize', handleResize);
+    
+        // Initial check to handle mobile view on load
+        document.addEventListener('DOMContentLoaded', () => {
+            handleResize();
+        });
+    </script> -->
+    
+    <script>
+         $(document).ready(function() {
+            debugger;
+                        const currentURL = window.location.pathname;
+                        const userName = currentURL.split("/").pop(); // Extracts the username
+                        // localStorage.removeItem('_id');
+                        // Fetch user ID and images
+                        document.title = `Profile - ${userName}`;
+                        $.ajax({
+                            url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=200`,
+                            method: 'GET',
+                            success: function(response) {
+                                if (response.data.length > 0) {
+                                    const userId = response.data[0]._id;  // Assuming the first result is the correct user
+                                
+                                    // localStorage.setItem('_id', userId); 
+                                    loadimages1(userId);
+
+                                    $(window).on('scroll', function () {
+                                        var scrollPosition = $(window).scrollTop() + window.innerHeight;
+                                        var documentHeight = $(document).height();
+
+                                        if (scrollPosition >= documentHeight - 100) {
+                                            loadMoreImages(userId); // Load more images when close to the bottom
+                                        }
+                                    });
+                                } else {
+                                    console.error('User not found');
+                                }
+                            },
+                            error: function(error) {
+                                console.error('Error fetching user ID:', error);
+                            }
+                        });
+                    });
+                    debugger;
+         var windowWidth = $(window).width();
+            var gutterValue = windowWidth < 767 ? 14 : 20;
+                $('.conmtainer_dtat').masonry({
+                        itemSelector: '.grid-item',
+                        columnWidth: '.grid-sizer', // 240px width for each column (you can tweak this value)
+                        gutter: gutterValue, // Set the gap between images to 20px
+                        horizontalOrder: true,
+                        percentPosition: true, // This makes the layout more responsive
+                        animate: false
+                });
+
+                // Set container visibility to hidden initially
+                $('.conmtainer_dtat').hide();
+                // $('.banner-image').hide();
+                // $('.main-data-user').hide();
+
+                function showGallery() {
+                    // Fade in the gallery once Masonry layout is set
+                    // $(".main-data-lens").fadeIn(2000);
+                    // $('.banner-image').fadeIn();
+                    // $(".main-data-user").fadeIn();
+                    $('.conmtainer_dtat').fadeIn(4000);
+                    $(".main-data-lens").fadeIn(1000);
+                }
+
+                let currentPage = 1;  // Track the current page for loading images
+                let loadedCategories = new Set();  // Keep track of loaded categories
+                let isFetching = false;  // To prevent multiple fetches at once
+                let activeTabId = '🪩-trending'; 
+                // const userIds = localStorage.getItem('_id'); 
+                // const nameid = userIds;
+
+                function loadimages1(userId) {
+                    debugger;
+                    if (isFetching) return;
+                    isFetching = true;  // Set fetching flag to true
+                    let container = $(".conmtainer_dtat");
+                    let noneimage = $(".banner-image");
+                    let degignation = $(".degignation");
+                    let existingProfileImg = $(".profile-pic");
+                    let profilename = $(".profile-name");
+                    let userapp = $(".user-app");
+
+                    $.ajax({
+                        url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${userId}?page=${currentPage}&perPage=50&isUserId=true`,
+                        method: 'GET',
+                        success: function (response) {
+                            const data = response.data;
+                            let imagesLoaded = 0;  // Track how many images are loaded
+
+                            // const newUrl = `/user/${data.userName.toLowerCase()}`;
+                            // window.history.pushState({}, '', newUrl);
+
+                            // Set user profile data
+                            if (!noneimage.find('.profile-cover-pic').length) {
+                                noneimage.empty();
+                                let profileImg = $('<img>')
+                                    .attr('src', data.coverPic)
+                                    .attr('alt', 'user_coverpic')
+                                    .addClass('profile-cover-pic');
+                                noneimage.append(profileImg);
+                            }
+
+                            if (!degignation.find('.degignation-image').length) {
+                                degignation.text(data.profileFeed);
+                            }
+
+                            if (existingProfileImg.length) {
+                                existingProfileImg.attr('src', data.profilePicture);
+                            }
+
+                            if (profilename.length) {
+                                profilename.text(data.userName);
+                            }
+
+                            if (userapp.length) {
+                                userapp.text(`@${data.userName}`);
+                            }
+
+                            // Loop through images
+                            data.images.forEach(item => {
+                                let category = item.name.toLowerCase().replace(/\s+|\../g, '-');
+                                    // Create main div for the image
+                                    let elem = $('<div></div>');
+                                    elem.addClass("main-data-lens")
+                                        .addClass(category)
+                                        .addClass("dispaly-none")
+                                        .addClass("grid-item");
+                                    elem.hide();
+
+                                    // Create image element
+                                    let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
+                                        .css({ width: '100%', height: 'auto' });
+
+                                    // When the image is fully loaded, update the Masonry layout
+                                    img.on('load', function () {
+                                        imagesLoaded++;
+                                        container.masonry('appended', elem);
+                                        elem.fadeIn(1000);
+
+                                        // Once all images are loaded, relayout Masonry
+                                        if (imagesLoaded === data.images.length) {
+                                            container.masonry('layout');
+                                            showGallery();
+                                        }
+                                    });
+
+                                    elem.append(img);
+
+                                    // Create profile data div
+                                    let profileData = $('<div></div>').addClass("profile_data");
+                                    let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                                    let userRoleLink = $('<span></span>').text(category); // Role can be customized
+
+                                    profileInfo.append(userRoleLink);
+                                    profileData.append(profileInfo);
+                                    elem.append(profileData);
+
+                                    // Append the main div to the container
+                                    container.append(elem);
+                                    // localStorage.removeItem('_id');
+                            });
+
+                            showGallery();
+                            isFetching = false;  // Reset the fetching flag
+                        },
+                        error: function (error) {
+                            console.error('Error fetching data:', error);
+                            isFetching = false;
+                        }
+                    });
+                }
+                
+                // $(window).on('scroll', function () {
+                //     var scrollPosition = $(window).scrollTop() + window.innerHeight;
+                //     var documentHeight = $(document).height();
+
+                //     if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
+                //         loadMoreImages(); // Load more images when close to the bottom
+                //     }
+                // });
+                $(document).on('click', '.tab-names', function () {
+                    activeTabId = $(this).attr('id');  // Update the active tab ID
+                });
+                function loadMoreImages(userId) {
+                    if (isFetching) return;  // Prevent multiple fetches
+                    currentPage++;  // Increment the page number
+                    loadimages1(userId);  
+                }
+                document.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                });
+
+                    let tabsnames = $(".model_tabs");
+                    let categoryImagesMap = {};  // To map category name to its image
+
+                    // First, fetch category data from the first API
+                    function fetchCategoryData() {
+                        return $.ajax({
+                            url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=50&page=1`,
+                            method: 'GET'
+                        });
+                    }
+
+                    // Fetch category images from the second API
+                    function fetchCategoryImages() {
+                        return $.ajax({
+                            url: `https://dashboard.flashailens.com/api/dashboard/getAllData`,
+                            method: 'GET'
+                        });
+                    }
+
+                    // Helper function to sanitize category name (remove spaces, icons, etc.)
+                    function sanitizeCategoryName(name) {
+                        return name.replace(/[^\w\s]|_/g, "").replace(/\s+/g, "-");
+                    }
+
+                    // Load the categories with icons
+                    // function loadCategoriesWithIcons() {
+                        
+                    //     // Add the "🪩 trending" tab as the first tab and mark it as active
+                    //     let trendingTab = $('<span></span>')
+                    //         .addClass('tab-names active')  // Mark as active
+                    //         .attr('id', '🪩-trending')
+                    //         .html(`🪩 Trending`);
+                    //     tabsnames.append(trendingTab);  // Add "🪩 trending" tab first
+
+                    //     // Fetch data from APIs
+                    //     $.when(fetchCategoryData(), fetchCategoryImages()).done(function (categoryDataResponse, categoryImagesResponse) {
+                    //         const categoryData = categoryDataResponse[0].data;  // Access the data from the first API
+                    //         const categoryImages = categoryImagesResponse[0].data;  // Access the data from the second API
+                            
+                        
+                    //         // Create a map of sanitized category name to category image
+                    //         categoryImages.forEach(item => {
+                    //             const sanitizedLensName = item.lensName;
+                    //             categoryImagesMap[sanitizedLensName] = item.image; 
+                    //         });
+                        
+                    //         // Generate the remaining tabs with icons from category data
+                    //         const loadedCategories = new Set();  // To track the loaded categories
+                    //         categoryData.forEach(item => {
+                    //             const sanitizedCategory = item.name;  // Sanitize category name
+                    //         const cateID = item.name.toLowerCase().replace(/\s+|\../g, '-');;
+                            
+                    //             // If the category is not already loaded, create the tab
+                    //             if (!loadedCategories.has(sanitizedCategory)) {
+                    //                 let categoryId = sanitizedCategory;  // Category ID for the tab
+
+                    //                 // Find the corresponding image for the sanitized category
+                    //                 let categoryIcon = categoryImagesMap[sanitizedCategory] || '../images/start-slash.png';  // Default icon if not available
+
+                    //                 // Create the tab element with icon
+                    //                 let tab = $('<span></span>')
+                    //                     .addClass('tab-names')
+                    //                     .attr('id', cateID)
+                    //                     .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${item.name}`);
+
+                    //                 tabsnames.append(tab);  // Append tab to the container
+                    //                 loadedCategories.add(sanitizedCategory);  // Mark this category as loaded
+                    //             }
+                    //         });
+
+                    //         // Set up click behavior for the tabs
+                    //         $('.model_tabs').on('click', '.tab-names', function () {
+                                
+                    //             let tabId = $(this).attr('id');
+                    //             $('.tab-names').removeClass('active');
+                    //             $(this).addClass('active');
+
+                    //             if (tabId === '🪩-trending') {
+                    //                 $(".conmtainer_dtat").removeClass("grid2");
+                    //                 // let containerss = $(".model_tabs");
+                    //                 // containerss.empty();
+                    //                 // $(".conmtainer_dtat").empty();
+                    //                 // loadCategoriesWithIcons();
+                    //                 // loadimages2(); 
+                    //                 // showGallery2();
+                    //                 $(".main-data-lens").fadeIn(700);
+                    //                 // Load trending images
+                    //             } else {
+                    //                 debugger;
+                    //                 $(".main-data-lens").hide();
+                    //                 $(".grid-sizer").hide();
+                    //                 $(".conmtainer_dtat").addClass("grid2");
+                    //                 $(".main-data-lens." + tabId).fadeIn(700);
+                                    
+                    //             }
+                    //         });
+                    //     }).fail(function (error) {
+                    //         console.error('Error loading category or images data:', error);
+                    //     });
+                    // }
+
+                    // loadCategoriesWithIcons();
+
+                    
+
+                   
+
+    </script>
+</body>
+</html>
