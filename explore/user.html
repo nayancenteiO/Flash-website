@@ -93,8 +93,8 @@
             function showGallery3() {
                 $('.main-tital').show();
             }
-            const currentURL = window.location.pathname;
-            // const currentURL = '/explore/darshak';
+            // const currentURL = window.location.pathname;
+            const currentURL = '/explore/darshak';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
            
@@ -256,7 +256,7 @@
                         // Step 3: Fetch lensId using the username and start initial loading of images
                         getLensIdAndLoadImages(userName);
 
-                        function loadMoreImages() {
+                        function loadMoreImagess() {
                             if (isFetching) return; // Prevent multiple fetches
                             currentPage++; // Increment the page number
                             loadUserImages(50); // Load next set with perPage=50
@@ -266,7 +266,7 @@
                             var scrollPosition = $(window).scrollTop() + window.innerHeight;
                             var documentHeight = $(document).height();
                             if (scrollPosition >= documentHeight - 100) {
-                                loadMoreImages();
+                                loadMoreImagess();
                             }
                         });
                     }
