@@ -203,9 +203,7 @@
                 // Retry fetching icons if undefined, but only once
                 if (!lensIcon && !retryFetch) {
                     retryFetch = true;
-                    fetchCategoryImages().then(() => {
-                        loadimages1(userId); // Reload images after updating icons
-                    });
+                    fetchCategoryImages()
                     return; // Exit to wait for reload
                 }
 
