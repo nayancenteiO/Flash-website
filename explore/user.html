@@ -9,12 +9,15 @@
     <meta property="og:image" content="https://flashai.photo/images/og-image.png">
     <meta property="og:url" content="https://flashai.photo/explore">
     <meta property="og:type" content="website">
+
     <meta name="twitter:card" content="Flash AI Photo Generator">
     <meta name="twitter:title" content="Flash AI Photo Generator">
     <meta name="twitter:description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
     <meta name="twitter:image" content="https://flashai.photo/images/og-image.png">
     <meta name="twitter:url" content="https://flashai.photo/explore">
+
     <meta name="robots" content="noindex, nofollow">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="../images/flash_favicon.png" type="image/x-icon">
@@ -22,13 +25,24 @@
     <link rel="stylesheet" href="../css/user.css">
     <link rel="stylesheet" href="../css/explore.css">
     <meta name="description" content="Snap to Masterpiece. Join the Revolution in Photography - Download Now">
-    <title>Profile</title>
+    <title>Flash</title>
 </head>
 <body>
-    <section class="banner-image">
-       <img src="" alt="">
+    <section class="lens-data">
+       <div class="container">
+            <div class="main-tital">
+                <p>Make Your Brand Photo With Flash Lens</p>
+                <h1 class="main-title main-heading text-center"></h1>
+            </div>
+            <div class="conmtainer_dtat grid">
+                <div class="grid-sizer"></div>
+            </div>
+       </div>
     </section>
-    <section class="main-data-user dispaly-none">
+    <section class="banner-image user-data">
+      
+    </section>
+    <section class="main-data-user  user-data">
         <div class="container">
             <div class="profile-header">
                 <img src="" alt="Profile Picture" class="profile-pic">
@@ -51,12 +65,39 @@
     <script src="../js/masoonary.js"></script>
 
     <script>
+        
         $(document).ready(function() {
+            var windowWidth = $(window).width();
+            var gutterValue = windowWidth < 767 ? 14 : 20;
+            $('.conmtainer_dtat').masonry({
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-sizer',
+                gutter: gutterValue,
+                horizontalOrder: true,
+                percentPosition: true,
+                animate: false
+            });
+
+            $('.conmtainer_dtat').hide();
+            $('.banner-image').hide();
+            $('.main-data-user').hide();
+            $('.main-tital').hide();
+
+            function showGallery() {
+                $('.conmtainer_dtat').fadeIn(4000);
+                $('.banner-image').show();
+                $('.main-data-user').show();
+                $(".main-data-lens").fadeIn(1000);
+                $('.main-tital').show();
+            }
+            function showGallery3() {
+                $('.main-tital').show();
+            }
             const currentURL = window.location.pathname;
-            // const currentURL = '/explore/pratik';
+            // const currentURL = '/explore/flux-schnell-4o-mini';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
-            document.title = `Profile - ${userName}`;
+           
 
             // Define lensIconMap to store both lens names and images
             let lensIconMap = {};
@@ -81,6 +122,11 @@
             }
 
             fetchCategoryImages(); // Fetch lens icons initially
+            $('.main-lens-gallery').hide();
+
+            function showGallery2() {
+                $(".main-lens-gallery").fadeIn(2000);
+            }
 
             $.ajax({
                 url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=200`,
@@ -88,6 +134,9 @@
                 success: function(response) {
                     if (response.data.length > 0) {
                         const userId = response.data[0]._id; 
+                        document.title = `Profile - ${userName}`;
+                       
+                        $('.lens-data').remove();
                         loadimages1(userId);
                         
                         $(window).on('scroll', function () {
@@ -98,7 +147,127 @@
                             }
                         });
                     } else {
-                        console.error('User not found');
+                        $('.user-data').remove();
+                        $('.lens-data').show();
+                        document.title = `Flash Lens - ${userName}`;
+                        let currentPage = 1;
+                        let isFetching = false;
+                        let initialLoad = true;
+                        let lensId = null;
+                        
+                        let titlemna = $('.main-title');
+                        titlemna.text(userName);
+                      
+                        function getLensIdAndLoadImages(userName) {
+                            $.ajax({
+                                url: 'https://dashboard.flashailens.com/api/dashboard/getAllData',
+                                method: 'GET',
+                                success: function(response) {
+                                    if (response && response.data && Array.isArray(response.data)) {
+                                        let matchedLens = response.data.find(item => item.lensName.toLowerCase().replace(/\s+|\./g, '-') === userName);
+                                        
+                                        if (matchedLens) {
+                                            lensId = matchedLens.lensId; // Set lensId from the matched record
+                                            loadUserImages(); // Call image loading function after finding lensId
+                                        } else {
+                                            console.error("No matching lens ID found for username:", userName);
+                                        }
+                                    } else {
+                                        console.error("Invalid API response or data not in expected format");
+                                    }
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching lens data:', error);
+                                }
+                            });
+                        }
+
+
+                        function loadUserImages(perPage = 50) {
+                            if (isFetching || !lensId) return; // Ensure lensId is available
+                            isFetching = true;
+                            let containerss = $(".conmtainer_dtat");
+
+                            // Step 2: Use new API with lensId and name parameters
+                            $.ajax({
+                                url: `https://dashboard.flashailens.com/api/imageGeneration/getLensWiseImages?perPage=${perPage}&page=${currentPage}&userId=&name=${userName}&lensId=${lensId}`,
+                                method: 'GET',
+                                success: function(response) {
+                                    const imgesd = response.data;
+                                    response.data.forEach(image => {
+                                        // let usercot = image.name.toLowerCase().replace(/\s+|\./g, '-');
+                                        // console.log(usercot);
+                                        let imagesLoaded = 0;
+
+                                        // if (usercot === userName) { 
+                                            let category = image.name.toLowerCase().replace(/\s+|\./g, '-');
+
+                                            let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
+
+                                            let img = $('<img>').attr('src', image.thumbnailsImage).attr('alt', 'images')
+                                                .css({ width: '100%', height: 'auto' });
+
+                                            img.on('load', function () {
+                                                imagesLoaded++;
+                                                containerss.masonry('appended', elem);
+                                                elem.fadeIn(1000);
+
+                                                if (imagesLoaded === imgesd.length) {
+                                                    showGallery();
+                                                }
+                                            });
+
+                                            elem.append(img);
+
+                                            // Create profile data div with lens icon if available
+                                            let profileData = $('<div></div>').addClass("profile_data");
+                                            let profileImg = $('<img>').attr('src', image.user[0].profilePicture).attr('alt', 'user_profile');
+                                            let userNames = image.user[0].userName;
+                                            let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                                            let userNameLink = $('<a></a>')
+                                                .addClass("profile")
+                                                .attr('id', image.user[0]._id) 
+                                                .attr('href', `/explore/${userNames}`)
+                                                .text(image.user[0].userName)
+                                                .attr('target', '_blank');
+
+                                            profileInfo.append(userNameLink)
+                                            profileData.append(profileImg).append(profileInfo);
+                                            elem.append(profileData);
+
+                                            containerss.append(elem);
+                                        // }
+                                        showGallery3();
+                                        showGallery2();
+                                        showGallery();
+
+                                    });
+                                    isFetching = false; // Reset fetching flag
+                                    initialLoad = false; // After the first load, set initialLoad to false
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching images:', error);
+                                    isFetching = false;
+                                }
+                            });
+                        }
+
+                        // Step 3: Fetch lensId using the username and start initial loading of images
+                        getLensIdAndLoadImages(userName);
+
+                        function loadMoreImages() {
+                            if (isFetching) return; // Prevent multiple fetches
+                            currentPage++; // Increment the page number
+                            loadUserImages(50); // Load next set with perPage=50
+                        }
+
+                        $(window).on('scroll', function() {
+                            var scrollPosition = $(window).scrollTop() + window.innerHeight;
+                            var documentHeight = $(document).height();
+                            if (scrollPosition >= documentHeight - 100) {
+                                loadMoreImages();
+                            }
+                        });
                     }
                 },
                 error: function(error) {
@@ -106,27 +275,7 @@
                 }
             });
 
-            var windowWidth = $(window).width();
-            var gutterValue = windowWidth < 767 ? 14 : 20;
-            $('.conmtainer_dtat').masonry({
-                itemSelector: '.grid-item',
-                columnWidth: '.grid-sizer',
-                gutter: gutterValue,
-                horizontalOrder: true,
-                percentPosition: true,
-                animate: false
-            });
-
-            $('.conmtainer_dtat').hide();
-            $('.banner-image').hide();
-            $('.main-data-user').hide();
-
-            function showGallery() {
-                $('.conmtainer_dtat').fadeIn(4000);
-                $('.banner-image').show();
-                $('.main-data-user').show();
-                $(".main-data-lens").fadeIn(1000);
-            }
+         
 
             let currentPage = 1; 
             let isFetching = false;
