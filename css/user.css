@@ -212,7 +212,10 @@ section.banner-image > img {
     .grid-item, .grid-sizer {
         width: 47.6%;
     }
-  
+    .main-heading {
+        font-size: 25px;
+        line-height: 30px;
+    }
     .profile_data_secound span {
           line-height: 14px;
           white-space: nowrap;
