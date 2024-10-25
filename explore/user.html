@@ -93,8 +93,8 @@
             function showGallery3() {
                 $('.main-tital').show();
             }
-            const currentURL = window.location.pathname;
-            // const currentURL = '/explore/flux-schnell-4o-mini';
+            // const currentURL = window.location.pathname;
+            const currentURL = '/explore/darshak';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
            
@@ -372,7 +372,7 @@
                                 profileInfo.append(lensIconImg); // Append lens icon
                             }
 
-                            let userRoleLink = $('<span></span>').text(category);
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
                             profileInfo.append(userRoleLink);
                             profileData.append(profileInfo);
                             elem.append(profileData);
