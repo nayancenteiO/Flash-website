@@ -101,6 +101,7 @@ section.main-data-user {
     width: 18.50%;
     padding-bottom: 30px;
   }
+  
   .conmtainer_dtat {
       overflow: hidden;
       min-height: 50vh;
@@ -120,6 +121,11 @@ section.banner-image > img {
 .profile-header img.profile-pic {
     outline: 2px solid #000;
     margin-top: -60px;
+}
+.profile_data_secound {
+    display: flex;
+    width: 100%;
+    align-items: center;
 }
 /* Media */
 @media(max-width:1140px){
