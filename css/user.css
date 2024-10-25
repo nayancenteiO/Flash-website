@@ -118,7 +118,7 @@ section.banner-image > img {
     object-position: center;
 }
 .profile-header img.profile-pic {
-    outline: 6px solid #000;
+    outline: 2px solid #000;
     margin-top: -60px;
 }
 /* Media */
@@ -157,7 +157,7 @@ section.banner-image > img {
     .profile-pic {
         width: 100px;
         height: 100px;
-        outline: 4px solid #000 !important;
+        outline: 2px solid #000 !important;
         margin-top: -50px !important;
     }
   }
