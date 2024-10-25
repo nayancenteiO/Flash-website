@@ -93,8 +93,8 @@
             function showGallery3() {
                 $('.main-tital').show();
             }
-            const currentURL = window.location.pathname;
-            // const currentURL = '/explore/darshak';
+            // const currentURL = window.location.pathname;
+            const currentURL = '/explore/flux-schnell-4o-mini';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
            
@@ -171,7 +171,6 @@
                                             loadUserImages(); // Call image loading function after finding lensId
                                         } else {
                                             console.error("No matching lens ID found for username:", userName);
-                                            showGallery3();
                                         }
                                     } else {
                                         console.error("Invalid API response or data not in expected format");
@@ -196,7 +195,7 @@
                                 success: function(response) {
                                     const imgesd = response.data;
                                     response.data.forEach(image => {
-                                        // let usercot = image.name.toLowerCase().replace(/\s+|\./g, '-');
+                                        // let usercot = image.name.toLowerCase().replace(/[\s.;]+/g, '-');
                                         // console.log(usercot);
                                         let imagesLoaded = 0;
 
@@ -238,7 +237,7 @@
 
                                             containerss.append(elem);
                                         // }
-                                        showGallery3();
+  showGallery3();
                                         showGallery2();
                                         showGallery();
 
@@ -256,7 +255,7 @@
                         // Step 3: Fetch lensId using the username and start initial loading of images
                         getLensIdAndLoadImages(userName);
 
-                        function loadMoreImagess() {
+                        function loadMoreImages() {
                             if (isFetching) return; // Prevent multiple fetches
                             currentPage++; // Increment the page number
                             loadUserImages(50); // Load next set with perPage=50
@@ -266,7 +265,7 @@
                             var scrollPosition = $(window).scrollTop() + window.innerHeight;
                             var documentHeight = $(document).height();
                             if (scrollPosition >= documentHeight - 100) {
-                                loadMoreImagess();
+                                loadMoreImages();
                             }
                         });
                     }
@@ -373,7 +372,7 @@
                                 profileInfo.append(lensIconImg); // Append lens icon
                             }
 
-                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+                            let userRoleLink = $('<span></span>').text(category);
                             profileInfo.append(userRoleLink);
                             profileData.append(profileInfo);
                             elem.append(profileData);

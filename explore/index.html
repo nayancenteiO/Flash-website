@@ -303,7 +303,7 @@
                         let imagesLoaded = 0;  // Track how many images are loaded
 
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');;
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
 
                             // Create main div for the image
                             let elem = $('<div></div>');
@@ -393,7 +393,7 @@
                     success: function (response) {
                         const data = response.data;
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');;
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
 
                             // If filtering by tab, only add matching categories
                             if (tabId && tabId !== category) {
@@ -563,7 +563,7 @@
                             const loadedCategories = new Set();  // To track the loaded categories
                             categoryData.forEach(item => {
                                 const sanitizedCategory = item.name;  // Sanitize category name
-                                const cateID = item.name.toLowerCase().replace(/\s+|\./g, '-');;
+                                const cateID = item.name.toLowerCase().replace(/\s+|\./g, '-');
                             
                                 // If the category is not already loaded, create the tab
                                 if (!loadedCategories.has(sanitizedCategory)) {
@@ -576,7 +576,7 @@
                                     let tab = $('<span></span>')
                                         .addClass('tab-names')
                                         .attr('id', cateID)
-                                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${item.name}`);
+                                        .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${cateID}`);
 
                                     tabsnames.append(tab);  // Append tab to the container
                                     loadedCategories.add(sanitizedCategory);  
