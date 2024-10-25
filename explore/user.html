@@ -53,6 +53,7 @@
     <script>
         $(document).ready(function() {
             const currentURL = window.location.pathname;
+            // const currentURL = '/explore/pratik';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
             document.title = `Profile - ${userName}`;
@@ -199,7 +200,7 @@
                             // Check for lens icon and add to profileInfo if it matches the category
                              // Direct match with lensIconMap
                              let lensIcon = lensIconMap[category];
-                
+                             let defaultLensIcon = '../images/start-slash.png'; 
                             // Retry fetching icons if undefined, but only once
                             if (!lensIcon && !retryFetch) {
                                 retryFetch = true;
@@ -210,26 +211,16 @@
                             // Fallback to partial match if no exact match found
                             if (!lensIcon) {
                                 const matchedKey = Object.keys(lensIconMap).find(key => key.includes(category));
-                                lensIcon = matchedKey ? lensIconMap[matchedKey] : undefined;
+                                lensIcon = matchedKey ? lensIconMap[matchedKey] : defaultLensIcon;
                             }
 
                             console.log("Lens icon for category:", category, lensIcon); // Check matched icon
                             if (lensIcon) {
                                 let lensIconImg = $('<img>')
-                                    .attr('src', lensIcon || '../images/start-slash.png') // Use the lensIcon if available, otherwise use the default icon
-                                    .on('error', function() { 
-                                        $(this).attr('src', '../images/start-slash.png'); // If lensIcon fails to load, set default icon
-                                    })
+                                    .attr('src', lensIcon)
                                     .addClass('lens-icon')
                                     .css({ width: '16px', height: '16px', marginRight: '6px' });
                                 profileInfo.append(lensIconImg); // Append lens icon
-                            } else {
-                                // Directly set to default if lensIcon is not available
-                                let defaultIconImg = $('<img>')
-                                    .attr('src', '../images/start-slash.png')
-                                    .addClass('lens-icon')
-                                    .css({ width: '16px', height: '16px', marginRight: '6px' });
-                                profileInfo.append(defaultIconImg); // Append default icon
                             }
 
                             let userRoleLink = $('<span></span>').text(category);
