@@ -93,9 +93,9 @@
             function showGallery3() {
                 $('.main-tital').show();
             }
-            const currentURL = window.location.pathname;
+            // const currentURL = window.location.pathname;
             // const currentURL = '/explore/flash-ai';
-            // const currentURL = '/explore/cyber-punk---3-5-sonnet-core---clarity';
+            const currentURL = '/explore/van-gogh-haiku--sd-1-6-';
             // const currentURL = '/explore/darshak';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
@@ -561,6 +561,7 @@
                                     .css({ width: '20px', height: '20px', marginRight: '6px' });
                                 profileInfo.append(lensIconImg); // Append lens icon
                             }
+                            
                             let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                             // let userRoleLink = $('<span></span>').text(category);

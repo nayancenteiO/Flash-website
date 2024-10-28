@@ -265,8 +265,7 @@
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
                                 .attr('href', `/explore/${userNames}`)
-                                .text(item.user[0].userName)
-                                .attr('target', '_blank');
+                                .text(item.user[0].userName);
                             let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
@@ -341,8 +340,7 @@
                                .addClass("profile")
                                .attr('id', item.user[0]._id) 
                                .attr('href', `/explore/${userNames}`)
-                               .text(item.user[0].userName)
-                               .attr('target', '_blank');
+                               .text(item.user[0].userName);
                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                            profileInfo.append(userNameLink).append(userRoleLink);
@@ -417,8 +415,7 @@
                                 .addClass("profile")
                                 .attr('id', item.user[0]._id) 
                                 .attr('href', `/explore/${userNames}`)
-                                .text(item.user[0].userName)
-                                .attr('target', '_blank');
+                                .text(item.user[0].userName);
                             let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
@@ -508,7 +505,7 @@
                                 .attr('href', `/explore/${userNames}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
-                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
                             profileData.append(profileImg).append(profileInfo);
