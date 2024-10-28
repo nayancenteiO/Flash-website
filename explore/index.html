@@ -228,7 +228,7 @@
                         let imagesLoaded = 0;  // Track how many images are loaded
 
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
                             // Create main div for the image
                             let elem = $('<div></div>');
@@ -267,7 +267,7 @@
                                 .attr('href', `/explore/${userNames}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
-                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
                             profileData.append(profileImg).append(profileInfo);
@@ -303,7 +303,7 @@
                        let imagesLoaded = 0;  // Track how many images are loaded
 
                        data.forEach(item => {
-                           let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                           let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
                            // Create main div for the image
                            let elem = $('<div></div>');
@@ -343,7 +343,7 @@
                                .attr('href', `/explore/${userNames}`)
                                .text(item.user[0].userName)
                                .attr('target', '_blank');
-                           let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+                           let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                            profileInfo.append(userNameLink).append(userRoleLink);
                            profileData.append(profileImg).append(profileInfo);
@@ -380,7 +380,7 @@
                         let imagesLoaded = 0;  // Track how many images are loaded
 
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
                             // Create main div for the image
                             let elem = $('<div></div>');
@@ -419,7 +419,7 @@
                                 .attr('href', `/explore/${userNames}`)
                                 .text(item.user[0].userName)
                                 .attr('target', '_blank');
-                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category).attr('target', '_blank'); // Role can be customized
+                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
                             profileData.append(profileImg).append(profileInfo);
@@ -473,7 +473,7 @@
                     success: function (response) {
                         const data = response.data;
                         data.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
                             // If filtering by tab, only add matching categories
                             if (tabId && tabId !== category) {
@@ -614,7 +614,7 @@
 
                     // Helper function to sanitize category name (remove spaces, icons, etc.)
                     function sanitizeCategoryName(name) {
-                        return name.replace(/[^\w\s]|_/g, "").replace(/\s+/g, "-");
+                        return name.replace(/[^\w\s]|_/g, "").replace(/[\s.;]+/g, '-');
                     }
 
                     // Load the categories with icons
@@ -643,7 +643,7 @@
                             const loadedCategories = new Set();  // To track the loaded categories
                             categoryData.forEach(item => {
                                 const sanitizedCategory = item.name;  // Sanitize category name
-                                const cateID = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                                const cateID = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
                             
                                 // If the category is not already loaded, create the tab
                                 if (!loadedCategories.has(sanitizedCategory)) {

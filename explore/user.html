@@ -111,7 +111,7 @@
                     success: function(response) {
                         response.data.forEach(item => {
                             // Normalize lens names for matching
-                            const normalizedLensName = item.lensName.toLowerCase().replace(/\s+|\./g, '-');
+                            const normalizedLensName = item.lensName.toLowerCase().replace(/[\s.;]+/g, '-');
                             lensIconMap[normalizedLensName] = item.image;
                         });
                         console.log("Lens icon map:", lensIconMap); // Log the map to verify keys
@@ -168,7 +168,7 @@
                                 method: 'GET',
                                 success: function(response) {
                                     if (response && response.data && Array.isArray(response.data)) {
-                                        let matchedLens = response.data.find(item => item.lensName.toLowerCase().replace(/\s+|\./g, '-') === userName);
+                                        let matchedLens = response.data.find(item => item.lensName.toLowerCase().replace(/[\s.;]+/g, '-') === userName);
                                         
                                         if (matchedLens) {
                                             lensId = matchedLens.lensId; // Set lensId from the matched record
@@ -204,7 +204,7 @@
                                         let imagesLoaded = 0;
 
                                         // if (usercot === userName) { 
-                                            let category = image.name.toLowerCase().replace(/\s+|\./g, '-');
+                                            let category = image.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
                                             let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
 
@@ -232,8 +232,7 @@
                                                 .addClass("profile")
                                                 .attr('id', image.user[0]._id) 
                                                 .attr('href', `/explore/${userNames}`)
-                                                .text(image.user[0].userName)
-                                                .attr('target', '_blank');
+                                                .text(image.user[0].userName);
 
                                             profileInfo.append(userNameLink)
                                             profileData.append(profileImg).append(profileInfo);
@@ -273,7 +272,7 @@
                                         let imagesLoaded = 0;
 
                                         // if (usercot === userName) { 
-                                            let category = image.name.toLowerCase().replace(/\s+|\./g, '-');
+                                            let category = image.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
                                             let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
 
@@ -301,8 +300,7 @@
                                                 .addClass("profile")
                                                 .attr('id', image.user[0]._id) 
                                                 .attr('href', `/explore/${userNames}`)
-                                                .text(image.user[0].userName)
-                                                .attr('target', '_blank');
+                                                .text(image.user[0].userName);
 
                                             profileInfo.append(userNameLink)
                                             profileData.append(profileImg).append(profileInfo);
@@ -399,7 +397,7 @@
                         }
 
                         data.images.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
                             let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
 
                             let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
@@ -447,7 +445,7 @@
                                     .css({ width: '20px', height: '20px', marginRight: '6px' });
                                 profileInfo.append(lensIconImg); // Append lens icon
                             }
-                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                             // let userRoleLink = $('<span></span>').text(category);
                             profileInfo.append(userRoleLink);
@@ -509,7 +507,7 @@
                         }
 
                         data.images.forEach(item => {
-                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
                             let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
 
                             let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
@@ -557,7 +555,7 @@
                                     .css({ width: '20px', height: '20px', marginRight: '6px' });
                                 profileInfo.append(lensIconImg); // Append lens icon
                             }
-                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                             // let userRoleLink = $('<span></span>').text(category);
                             profileInfo.append(userRoleLink);
