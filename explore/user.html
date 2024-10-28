@@ -93,8 +93,9 @@
             function showGallery3() {
                 $('.main-tital').show();
             }
-            const currentURL = window.location.pathname;
+            // const currentURL = window.location.pathname;
             // const currentURL = '/explore/flux-schnell-4o-mini';
+            const currentURL = '/explore/darshak';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
            
@@ -129,7 +130,7 @@
             }
 
             $.ajax({
-                url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=200`,
+                url: `https://dashboard.flashailens.com/api/user/searchUser?userName=${userName}&page=1&parPeg=20`,
                 method: 'GET',
                 success: function(response) {
                     if (response.data.length > 0) {
@@ -138,12 +139,15 @@
                        
                         $('.lens-data').remove();
                         loadimages1(userId);
-                        
-                        $(window).on('scroll', function () {
+
+                        $(window).on('scroll', function() {
                             var scrollPosition = $(window).scrollTop() + window.innerHeight;
                             var documentHeight = $(document).height();
-                            if (scrollPosition >= documentHeight - 100) {
-                                loadMoreImages(userId);
+                            // Calculate 80% of the document height
+                            var triggerPoint = documentHeight * 0.7;
+
+                            if (scrollPosition >= triggerPoint) {
+                                loadMoreImagess(userId);
                             }
                         });
                     } else {
@@ -183,8 +187,76 @@
                             });
                         }
 
+                        function loadUserImagess(perPage = 12) {
+                            if (isFetching || !lensId) return; // Ensure lensId is available
+                            isFetching = true;
+                            let containerss = $(".conmtainer_dtat");
 
-                        function loadUserImages(perPage = 50) {
+                            // Step 2: Use new API with lensId and name parameters
+                            $.ajax({
+                                url: `https://dashboard.flashailens.com/api/imageGeneration/getLensWiseImages?perPage=${perPage}&page=${currentPage}&userId=&name=${userName}&lensId=${lensId}`,
+                                method: 'GET',
+                                success: function(response) {
+                                    const imgesd = response.data;
+                                    response.data.forEach(image => {
+                                        // let usercot = image.name.toLowerCase().replace(/[\s.;]+/g, '-');
+                                        // console.log(usercot);
+                                        let imagesLoaded = 0;
+
+                                        // if (usercot === userName) { 
+                                            let category = image.name.toLowerCase().replace(/\s+|\./g, '-');
+
+                                            let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
+
+                                            let img = $('<img>').attr('src', image.thumbnailsImage).attr('alt', 'images')
+                                                .css({ width: '100%', height: 'auto' });
+
+                                            img.on('load', function () {
+                                                imagesLoaded++;
+                                                containerss.masonry('appended', elem);
+                                                elem.fadeIn(1000);
+
+                                                if (imagesLoaded === imgesd.length) {
+                                                    showGallery();
+                                                }
+                                            });
+
+                                            elem.append(img);
+
+                                            // Create profile data div with lens icon if available
+                                            let profileData = $('<div></div>').addClass("profile_data");
+                                            let profileImg = $('<img>').attr('src', image.user[0].profilePicture).attr('alt', 'user_profile');
+                                            let userNames = image.user[0].userName;
+                                            let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                                            let userNameLink = $('<a></a>')
+                                                .addClass("profile")
+                                                .attr('id', image.user[0]._id) 
+                                                .attr('href', `/explore/${userNames}`)
+                                                .text(image.user[0].userName)
+                                                .attr('target', '_blank');
+
+                                            profileInfo.append(userNameLink)
+                                            profileData.append(profileImg).append(profileInfo);
+                                            elem.append(profileData);
+
+                                            containerss.append(elem);
+                                        // }
+                                        showGallery3();
+                                        showGallery2();
+                                        showGallery();
+
+                                    });
+                                    isFetching = false; // Reset fetching flag
+                                    initialLoad = false; // After the first load, set initialLoad to false
+                                },
+                                error: function(error) {
+                                    console.error('Error fetching images:', error);
+                                    isFetching = false;
+                                }
+                            });
+                        }
+
+                        function loadUserImages(perPage = 20) {
                             if (isFetching || !lensId) return; // Ensure lensId is available
                             isFetching = true;
                             let containerss = $(".conmtainer_dtat");
@@ -259,13 +331,16 @@
                         function loadMoreImages() {
                             if (isFetching) return; // Prevent multiple fetches
                             currentPage++; // Increment the page number
-                            loadUserImages(50); // Load next set with perPage=50
+                            loadUserImagess(12); // Load next set with perPage=50
                         }
 
                         $(window).on('scroll', function() {
                             var scrollPosition = $(window).scrollTop() + window.innerHeight;
                             var documentHeight = $(document).height();
-                            if (scrollPosition >= documentHeight - 100) {
+                            // Calculate 80% of the document height
+                            var triggerPoint = documentHeight * 0.7;
+
+                            if (scrollPosition >= triggerPoint) {
                                 loadMoreImages();
                             }
                         });
@@ -292,7 +367,117 @@
                 let userapp = $(".user-app");
                 let retryFetch = false;
                 $.ajax({
-                    url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${userId}?page=${currentPage}&perPage=50&isUserId=true`,
+                    url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${userId}?page=${currentPage}&perPage=20&isUserId=true`,
+                    method: 'GET',
+                    success: function (response) {
+                        const data = response.data;
+                        let imagesLoaded = 0; 
+                        
+                        if (!noneimage.find('.profile-cover-pic').length) {
+                            noneimage.empty();
+                            let profileImg = $('<img>')
+                                .attr('src', data.coverPic)
+                                .attr('alt', 'user_coverpic')
+                                .addClass('profile-cover-pic');
+                            noneimage.append(profileImg);
+                        }
+
+                        if (!degignation.find('.degignation-image').length) {
+                            degignation.text(data.profileFeed);
+                        }
+
+                        if (existingProfileImg.length) {
+                            existingProfileImg.attr('src', data.profilePicture);
+                        }
+
+                        if (profilename.length) {
+                            profilename.text(data.userName);
+                        }
+
+                        if (userapp.length) {
+                            userapp.text(`@${data.userName}`);
+                        }
+
+                        data.images.forEach(item => {
+                            let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+                            let elem = $('<div></div>').addClass("main-data-lens grid-item").hide();
+
+                            let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
+                                .css({ width: '100%', height: 'auto' });
+
+                            img.on('load', function () {
+                                imagesLoaded++;
+                                container.masonry('appended', elem);
+                                elem.fadeIn(1000);
+
+                                if (imagesLoaded === data.images.length) {
+                                    container.masonry('layout');
+                                    showGallery();
+                                }
+                            });
+
+                            elem.append(img);
+
+                            // Create profile data div with lens icon if available
+                            let profileData = $('<div></div>').addClass("profile_data");
+                            let profileInfo = $('<div></div>').addClass("profile_data_secound");
+
+                            // Check for lens icon and add to profileInfo if it matches the category
+                             // Direct match with lensIconMap
+                             let lensIcon = lensIconMap[category];
+                             let defaultLensIcon = '../images/start-slash.png'; 
+                            // Retry fetching icons if undefined, but only once
+                            if (!lensIcon && !retryFetch) {
+                                retryFetch = true;
+                                fetchCategoryImages();
+                                return; // Exit to wait for reload
+                            }
+
+                            // Fallback to partial match if no exact match found
+                            if (!lensIcon) {
+                                const matchedKey = Object.keys(lensIconMap).find(key => key.includes(category));
+                                lensIcon = matchedKey ? lensIconMap[matchedKey] : defaultLensIcon;
+                            }
+
+                            console.log("Lens icon for category:", category, lensIcon); // Check matched icon
+                            if (lensIcon) {
+                                let lensIconImg = $('<img>')
+                                    .attr('src', lensIcon)
+                                    .addClass('lens-icon')
+                                    .css({ width: '20px', height: '20px', marginRight: '6px' });
+                                profileInfo.append(lensIconImg); // Append lens icon
+                            }
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+
+                            // let userRoleLink = $('<span></span>').text(category);
+                            profileInfo.append(userRoleLink);
+                            profileData.append(profileInfo);
+                            elem.append(profileData);
+
+                            container.append(elem);
+                        });
+                        showGallery();
+                        isFetching = false;
+                    },
+                    error: function (error) {
+                        console.error('Error fetching data:', error);
+                        isFetching = false;
+                    }
+                });
+            }
+
+            function loadimages1s(userId) {
+                if (isFetching) return;
+                isFetching = true;
+                let container = $(".conmtainer_dtat");
+                let noneimage = $(".banner-image");
+                let degignation = $(".degignation");
+                let existingProfileImg = $(".profile-pic");
+                let profilename = $(".profile-name");
+                let userapp = $(".user-app");
+                let retryFetch = false;
+                $.ajax({
+                    url: `https://dashboard.flashailens.com/api/user/getUserImagesHistory/${userId}?page=${currentPage}&perPage=12&isUserId=true`,
                     method: 'GET',
                     success: function (response) {
                         const data = response.data;
@@ -395,10 +580,10 @@
                 activeTabId = $(this).attr('id'); 
             });
 
-            function loadMoreImages(userId) {
+            function loadMoreImagess(userId) {
                 if (isFetching) return;  
                 currentPage++;  
-                loadimages1(userId);  
+                loadimages1s(userId);  
             }
 
             document.addEventListener('contextmenu', function(event) {

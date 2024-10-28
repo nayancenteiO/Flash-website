@@ -221,7 +221,7 @@
                 let container = $(".conmtainer_dtat");
                 let none = $(".main-data-lens");
                 $.ajax({
-                    url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=50&page=${currentPage}`,
+                    url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=12&page=${currentPage}`,
                     method: 'GET',
                     success: function (response) {
                         const data = response.data;
@@ -288,6 +288,83 @@
                     }
                 });
             }
+
+            function loadimages3() {
+               
+               if (isFetching) return;
+               isFetching = true;  // Set fetching flag to true
+               let container = $(".conmtainer_dtat");
+               let none = $(".main-data-lens");
+               $.ajax({
+                   url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=30&page=${currentPage}`,
+                   method: 'GET',
+                   success: function (response) {
+                       const data = response.data;
+                       let imagesLoaded = 0;  // Track how many images are loaded
+
+                       data.forEach(item => {
+                           let category = item.name.toLowerCase().replace(/\s+|\./g, '-');
+
+                           // Create main div for the image
+                           let elem = $('<div></div>');
+                           elem.addClass("main-data-lens")
+                               .addClass(category)
+                               .addClass("dispaly-none")
+                               .addClass("grid-item")
+                               // .css('width', getItemWidth()); // Set width, can be random if needed
+                               elem.hide();
+                           // Create image element
+                           let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
+                               .css({ width: '100%', height: 'auto' });
+
+                           // When the image is fully loaded, update the Masonry layout
+                           img.on('load', function () {
+                               imagesLoaded++;
+                               container.masonry('appended', elem);
+                               elem.fadeIn(1000);
+                               // Once all images are loaded, relayout Masonry
+                               if (imagesLoaded === data.length) {
+                                   container.masonry('layout');
+                                   showGallery3();
+                                   showGallery();  
+                               }
+                           });
+
+                           elem.append(img);
+
+                           // Create profile data div
+                           let profileData = $('<div></div>').addClass("profile_data");
+                           let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
+                           let userNames = item.user[0].userName;
+                           let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                           let userNameLink = $('<a></a>')
+                               .addClass("profile")
+                               .attr('id', item.user[0]._id) 
+                               .attr('href', `/explore/${userNames}`)
+                               .text(item.user[0].userName)
+                               .attr('target', '_blank');
+                           let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category).attr('target', '_blank'); // Role can be customized
+
+                           profileInfo.append(userNameLink).append(userRoleLink);
+                           profileData.append(profileImg).append(profileInfo);
+                           elem.append(profileData);
+
+                           // Append the main div to the container
+                           container.append(elem);
+                          
+                       });
+                       showGallery3();
+                       showGallery();
+                       
+                       isFetching = false;  // Reset the fetching flag
+                   },
+                   error: function (error) {
+                       console.error('Error fetching data:', error);
+                       isFetching = false;
+                       
+                   }
+               });
+           }
 
             function loadimages2() {
                
@@ -369,9 +446,12 @@
                 var scrollPosition = $(window).scrollTop() + window.innerHeight;
                 var documentHeight = $(document).height();
 
-                // Check if the user has scrolled to the bottom or near the bottom of the page
-                if (activeTabId === '🪩-trending' && scrollPosition >= documentHeight - 100) {
-                    loadMoreImages(); // Load more images when close to the bottom
+                // Calculate 80% of the document height
+                var triggerPoint = documentHeight * 0.7;
+
+                // Check if the user has scrolled to 80% of the page
+                if (activeTabId === '🪩-trending' && scrollPosition >= triggerPoint) {
+                    loadMoreImages(); // Load more images when 80% of the page is scrolled
                 }
             });
 
@@ -466,7 +546,7 @@
             function loadMoreImages() {
                 if (isFetching) return;  // Prevent multiple fetches
                 currentPage++;  // Increment the page number
-                loadimages1();  // Load next 50 images for 🪩 trending
+                loadimages3();  // Load next 50 images for 🪩 trending
             }
 
             $(document).on('click', '.tab-names', function () {
@@ -620,8 +700,8 @@
                     
 
                     // Load the trending tab content on page load
-                    loadimages1();
-                    
+                    loadimages3();
+                  
                 });
 
                 // $(document).on('click', '.profile', function (e) {
