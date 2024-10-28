@@ -94,7 +94,8 @@
                 $('.main-tital').show();
             }
             const currentURL = window.location.pathname;
-            // const currentURL = '/explore/flux-schnell-4o-mini';
+            // const currentURL = '/explore/flash-ai';
+            // const currentURL = '/explore/cyber-punk---3-5-sonnet-core---clarity';
             // const currentURL = '/explore/darshak';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
@@ -169,10 +170,13 @@
                                 success: function(response) {
                                     if (response && response.data && Array.isArray(response.data)) {
                                         let matchedLens = response.data.find(item => item.lensName.toLowerCase().replace(/[\s.;]+/g, '-') === userName);
-                                        
+                                      
                                         if (matchedLens) {
                                             lensId = matchedLens.lensId; // Set lensId from the matched record
                                             loadUserImages(); // Call image loading function after finding lensId
+                                        } else if (userName === 'cyber-punk---3-5-sonnet-core---clarity'){
+                                            lensId = 1;
+                                            loadUserImages();
                                         } else {
                                             console.error("No matching lens ID found for username:", userName);
                                             showGallery3();
@@ -301,9 +305,13 @@
                                                 .attr('id', image.user[0]._id) 
                                                 .attr('href', `/explore/${userNames}`)
                                                 .text(image.user[0].userName);
-
-                                            profileInfo.append(userNameLink)
-                                            profileData.append(profileImg).append(profileInfo);
+                                            let userNameLinks = $('<a></a>')
+                                                .addClass("profile")
+                                                .attr('id', image.user[0]._id) 
+                                                .attr('href', `/explore/${userNames}`);
+                                            userNameLinks.append(profileImg);
+                                            profileInfo.append(userNameLink);
+                                            profileData.append(userNameLinks).append(profileInfo);
                                             elem.append(profileData);
 
                                             containerss.append(elem);
@@ -436,8 +444,6 @@
                                 const matchedKey = Object.keys(lensIconMap).find(key => key.includes(category));
                                 lensIcon = matchedKey ? lensIconMap[matchedKey] : defaultLensIcon;
                             }
-
-                            console.log("Lens icon for category:", category, lensIcon); // Check matched icon
                             if (lensIcon) {
                                 let lensIconImg = $('<img>')
                                     .attr('src', lensIcon)

@@ -161,6 +161,9 @@ section.banner-image > img {
 .dispaly-none{
     opacity: 0;
 }
+.profile_data a {
+    width: auto;
+}
 /* Media */
 @media(max-width:1140px){
     .grid-item, .grid-sizer {
