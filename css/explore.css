@@ -345,7 +345,9 @@ span#🪩-trending {
   left: 0 !important;
 }
 
-
+.profile_data a {
+  width: auto;
+}
 
 
 

@@ -164,6 +164,17 @@ section.banner-image > img {
 .profile_data a {
     width: auto;
 }
+.profile_data > a {
+    width: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    /* flex-basis: 88%; */
+    justify-content: flex-end;
+    transition: all 0.3s;
+}
+.profile_data > a:hover {
+    text-decoration: underline;
+}
 /* Media */
 @media(max-width:1140px){
     .grid-item, .grid-sizer {

@@ -93,9 +93,9 @@
             function showGallery3() {
                 $('.main-tital').show();
             }
-            const currentURL = window.location.pathname;
+            // const currentURL = window.location.pathname;
             // const currentURL = '/explore/flash-ai';
-            // const currentURL = '/explore/van-gogh-haiku--sd-1-6-';
+            const currentURL = '/explore/van-gogh-haiku--sd-1-6-';
             // const currentURL = '/explore/darshak';
             const parts = currentURL.split("/").filter(Boolean); 
             let userName = parts.pop();
@@ -237,9 +237,13 @@
                                                 .attr('id', image.user[0]._id) 
                                                 .attr('href', `/explore/${userNames}`)
                                                 .text(image.user[0].userName);
-
-                                            profileInfo.append(userNameLink)
-                                            profileData.append(profileImg).append(profileInfo);
+                                            let userNameLinks = $('<a></a>')
+                                                .addClass("profile")
+                                                .attr('id', image.user[0]._id) 
+                                                .attr('href', `/explore/${userNames}`);
+                                            userNameLinks.append(profileImg);
+                                            profileInfo.append(userNameLink);
+                                            profileData.append(userNameLinks).append(profileInfo);
                                             elem.append(profileData);
 
                                             containerss.append(elem);
@@ -427,7 +431,7 @@
                             // Create profile data div with lens icon if available
                             let profileData = $('<div></div>').addClass("profile_data");
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category);
                             // Check for lens icon and add to profileInfo if it matches the category
                              // Direct match with lensIconMap
                              let lensIcon = lensIconMap[category];
@@ -449,13 +453,13 @@
                                     .attr('src', lensIcon)
                                     .addClass('lens-icon')
                                     .css({ width: '20px', height: '20px', marginRight: '6px' });
-                                profileInfo.append(lensIconImg); // Append lens icon
+                                    userRoleLink.append(lensIconImg); // Append lens icon
                             }
-                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
+                             // Role can be customized
 
                             // let userRoleLink = $('<span></span>').text(category);
-                            profileInfo.append(userRoleLink);
-                            profileData.append(profileInfo);
+                            profileData.append(userRoleLink);
+                            // profileData.append(profileInfo);
                             elem.append(profileData);
 
                             container.append(elem);
@@ -532,10 +536,10 @@
 
                             elem.append(img);
 
-                            // Create profile data div with lens icon if available
-                            let profileData = $('<div></div>').addClass("profile_data");
+                           // Create profile data div with lens icon if available
+                           let profileData = $('<div></div>').addClass("profile_data");
                             let profileInfo = $('<div></div>').addClass("profile_data_secound");
-
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category);
                             // Check for lens icon and add to profileInfo if it matches the category
                              // Direct match with lensIconMap
                              let lensIcon = lensIconMap[category];
@@ -552,21 +556,18 @@
                                 const matchedKey = Object.keys(lensIconMap).find(key => key.includes(category));
                                 lensIcon = matchedKey ? lensIconMap[matchedKey] : defaultLensIcon;
                             }
-
-                            console.log("Lens icon for category:", category, lensIcon); // Check matched icon
                             if (lensIcon) {
                                 let lensIconImg = $('<img>')
                                     .attr('src', lensIcon)
                                     .addClass('lens-icon')
                                     .css({ width: '20px', height: '20px', marginRight: '6px' });
-                                profileInfo.append(lensIconImg); // Append lens icon
+                                    userRoleLink.append(lensIconImg); // Append lens icon
                             }
-                            
-                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
+                             // Role can be customized
 
                             // let userRoleLink = $('<span></span>').text(category);
-                            profileInfo.append(userRoleLink);
-                            profileData.append(profileInfo);
+                            profileData.append(userRoleLink);
+                            // profileData.append(profileInfo);
                             elem.append(profileData);
 
                             container.append(elem);
