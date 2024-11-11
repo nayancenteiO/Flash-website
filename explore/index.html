@@ -42,6 +42,9 @@
                 <div class="conmtainer_dtat grid">
                     <div class="grid-sizer"></div>
                 </div>
+                <div class="conmtainer_dtats grid">
+                    <div class="grid-sizer"></div>
+                </div>
             </div>
         </section>
 
@@ -178,6 +181,14 @@
                         percentPosition: true, // This makes the layout more responsive
                         animate: false
                 });
+                // $('.conmtainer_dtats').masonry({
+                //         itemSelector: '.grid-item',
+                //         columnWidth: '.grid-sizer', // 240px width for each column (you can tweak this value)
+                //         gutter: gutterValue, // Set the gap between images to 20px
+                //         horizontalOrder: true,
+                //         percentPosition: true, // This makes the layout more responsive
+                //         animate: false
+                // });
 
                 // Set container visibility to hidden initially
                 $('.conmtainer_dtat').hide();
@@ -200,6 +211,13 @@
                     $(".main-data-lens").fadeIn(1000);
 
                 }
+                   
+                function showGallery4() {
+                    // Fade in the gallery once Masonry layout is set
+                    $('.conmtainer_dtats').fadeIn(2000);
+                    $(".conmtainer_dtats .main-data-lens").fadeIn(1000);
+
+                }
 
     
 
@@ -208,6 +226,7 @@
             let loadedCategories = new Set();  // Keep track of loaded categories
             let isFetching = false;  // To prevent multiple fetches at once
             let activeTabId = '🪩-trending';  // Track the active tab
+            let activeTabIds = null;  // Track the active tab
 
             function getItemWidth() {
                 // Check screen size and return the appropriate width
@@ -461,28 +480,45 @@
                 var triggerPoint = documentHeight * 0.7;
 
                 // Check if the user has scrolled to 80% of the page
-                if (activeTabId === '🪩-trending' && scrollPosition >= triggerPoint) {
-                    loadMoreImages(); // Load more images when 80% of the page is scrolled
+                if (scrollPosition >= triggerPoint) {
+                    debugger;
+                    if (activeTabId === '🪩-trending') {
+                        loadMoreImages(); // Load more images when 80% of the page is scrolled and active tab is trending
+                    } else {
+                        loadDataByCategory(activeTabId, false, activeTabIds); // Call the alternative function for non-trending tabs
+                    }
                 }
             });
 
             document.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
             });
+            let tabPages = {};
             // Function to load data by category with pagination (optional tabId)
-            function loadDataByCategory(tabId = null, reset = true) {
-                let container = $(".conmtainer_dtat");
+            function loadDataByCategory(tabId = null, reset = true, lensID = null) {
+              
+                let container = $(".conmtainer_dtats");
+                let perPage = 20;
                 if (reset) {
-                    currentPage = 1;  // Reset to page 1 when changing category
+                    tabPages[tabId] = 1;  // Set to page 1 when changing category
                     container.empty();  // Clear the container when filtering by category
                     loadedCategories.clear();  // Reset the loaded categories on category change
+                } else {
+                    // If not resetting, increment the page count for infinite scrolling
+                    tabPages[tabId] = tabPages[tabId] ? tabPages[tabId] + 1 : 1;
                 }
+                let currentPage = tabPages[tabId];
 
                 $.ajax({
-                    url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=50&page=${currentPage}`,
+                    // url: `https://dashboard.flashailens.com/api/imageGeneration/getAllImages?perPage=20&page=${currentPage}`,
+                    url: `https://dashboard.flashailens.com/api/imageGeneration/getLensWiseImages?perPage=${perPage}&page=${currentPage}&userId=&name=${tabId}&lensId=${lensID}`,
                     method: 'GET',
                     success: function (response) {
                         const data = response.data;
+                        let imagesLoaded = 0;
+                        // let elems= $('<div></div>');
+                        // elems.addClass("grid-sizer");
+                        // container.append(elems);
                         data.forEach(item => {
                             let category = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
 
@@ -496,40 +532,55 @@
                                 addCategoryToTabs(item.name);  // Add the category to the tabs
                                 loadedCategories.add(category);  // Track the category as loaded
                             }
-
+                            
                             // Create main div for the image
                             let elem = $('<div></div>');
                             elem.addClass("main-data-lens")
                                 .addClass(category)
                                 .addClass("grid-item")
-                                .css('width', '200px'); // Set width, can be random if needed
-
+                                // Set width, can be random if needed
+                                elem.hide();
                             // Create image element
                             let img = $('<img>').attr('src', item.thumbnailsImage).attr('alt', 'images')
-                                .css({ width: '100%', height: 'auto' });
-                            elem.append(img);
+                            .css({ width: '100%', height: 'auto' });
+                           // When the image is fully loaded, update the Masonry layout
+                        //    img.on('load', function () {
+                        //        imagesLoaded++;
+                        //        container.appended(elem);
+                        //        elem.fadeIn(1000);
+                        //        // Once all images are loaded, relayout Masonry
+                        //        if (imagesLoaded === data.length) {
+                        //         //    container.masonry('layout');
+                        //            showGallery4(); 
+                        //        }
+                        //    });
 
+                           elem.append(img);
                             // Create profile data div
                             let profileData = $('<div></div>').addClass("profile_data");
-                            let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
-                            let userNames = item.user[0].userName;
-                            let profileInfo = $('<div></div>').addClass("profile_data_secound");
-                            let userNameLink = $('<a></a>').addClass("profile")
+                           let profileImg = $('<img>').attr('src', item.user[0].profilePicture).attr('alt', 'user_profile');
+                           let userNames = item.user[0].userName;
+                           let profileInfo = $('<div></div>').addClass("profile_data_secound");
+                           let userNameLink = $('<a></a>')
+                                .addClass("profile")
                                 .attr('id', item.user[0]._id) 
                                 .attr('href', `/explore/${userNames}`)
-                                .text(item.user[0].userName)
-                                .attr('target', '_blank');
-                            let userRoleLink = $('<a></a>').attr('href', item.user[0].profileLink).text(category); // Role can be customized
+                                .text(item.user[0].userName);
+                            let userNameLinks = $('<a></a>')
+                                .addClass("profile")
+                                .attr('id', item.user[0]._id) 
+                                .attr('href', `/explore/${userNames}`);
+                            let userRoleLink = $('<a></a>').attr('href', `/explore/${category}`).text(category); // Role can be customized
 
                             profileInfo.append(userNameLink).append(userRoleLink);
-                            profileData.append(profileImg).append(profileInfo);
+                            let nameprofile = userNameLinks.append(profileImg);
+                            profileData.append(nameprofile).append(profileInfo);
                             elem.append(profileData);
 
-                            // Append the main div to the container
-                            container.append(elem);
-                            container.masonry('appended', elem);
+                           // Append the main div to the container
+                           container.append(elem);
                         });
-                        container.masonry('layout');
+                        showGallery4();
                     },
                     error: function (error) {
                         console.error('Error fetching data:', error);
@@ -562,6 +613,7 @@
 
             $(document).on('click', '.tab-names', function () {
                 activeTabId = $(this).attr('id');  // Update the active tab ID
+                activeTabIds = $(this).attr('data-id');  // Update the active tab ID
             });
 
             // Attach event listener to the Load More button
@@ -655,6 +707,7 @@
                             categoryData.forEach(item => {
                                 const sanitizedCategory = item.name;  // Sanitize category name
                                 const cateID = item.name.toLowerCase().replace(/[\s.;]+/g, '-');
+                                const lensid = item.lensId;
                             
                                 // If the category is not already loaded, create the tab
                                 if (!loadedCategories.has(sanitizedCategory)) {
@@ -667,6 +720,7 @@
                                     let tab = $('<span></span>')
                                         .addClass('tab-names')
                                         .attr('id', cateID)
+                                        .attr('data-id', lensid)
                                         .html(`<img src="${categoryIcon}" alt="${item.name}" style="width: 16px; height: 16px; margin-right: 6px;">${cateID}`);
 
                                     tabsnames.append(tab);  // Append tab to the container
@@ -679,11 +733,15 @@
                             $('.model_tabs').on('click', '.tab-names', function () {
                                 
                                 let tabId = $(this).attr('id');
+                                let lensID = $(this).attr('data-id');
                                 $('.tab-names').removeClass('active');
                                 $(this).addClass('active');
 
                                 if (tabId === '🪩-trending') {
+                                    debugger;
                                     $(".conmtainer_dtat").removeClass("grid2");
+                                    $(".conmtainer_dtats").css('display', 'none');
+                                    $(".conmtainer_dtat").show();
                                     // let containerss = $(".model_tabs");
                                     // containerss.empty();
                                     // $(".conmtainer_dtat").empty();
@@ -693,11 +751,13 @@
                                     $(".main-data-lens").fadeIn(700);
                                     // Load trending images
                                 } else {
-                                    $(".main-data-lens").hide();
-                                    $(".grid-sizer").hide();
-                                    $(".conmtainer_dtat").addClass("grid2");
+                                    debugger;
+                                    $(".conmtainer_dtat").hide();
+                                    $(".conmtainer_dtats").css('display', 'flex');
+                                    // $(".grid-sizer").hide();
+                                    $(".conmtainer_dtats").addClass("grid2");
                                     $(".main-data-lens." + tabId).fadeIn(700);
-                                    
+                                    loadDataByCategory(tabId, true, lensID);
                                 }
                             });
                             showGallery3();

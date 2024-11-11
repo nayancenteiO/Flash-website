@@ -41,7 +41,7 @@
     flex-direction: column;
 } */
 
-.conmtainer_dtat div.main-data-lens > img {
+.conmtainer_dtat div.main-data-lens > img, .conmtainer_dtats div.main-data-lens > img {
     border-radius: 20px;
     margin-bottom: 10px;
 }
@@ -347,6 +347,15 @@ span#🪩-trending {
 
 .profile_data a {
   width: auto;
+}
+.conmtainer_dtats{
+  display: none;
+}
+
+.conmtainer_dtats.grid.grid2 {
+  gap: 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 
